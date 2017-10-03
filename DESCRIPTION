@@ -8,6 +8,7 @@ License: This work is licensed under the Creative Commons Attribution 4.0 Intern
 LazyData: true
 Imports: data.tree,
     data.table
-Suggests: knitr
+Suggests: knitr,
+    rmarkdown
 VignetteBuilder: knitr
 RoxygenNote: 6.0.1
