@@ -1,3 +1,15 @@
+##' This function is designed to simplify the workflow by allowing specification of parameters/priors in an external CSV file following certain conventions.
+##'
+##' Work in progress: need to add other distributions; testing functionality etc
+##'
+##' @title Reading a parameter table and making utility functions
+##' @param data 
+##' @param outfile 
+##' @param dpl 
+##' @param testdir 
+##' @return \code{list} of functions for RV computations and associated names
+##' @author Pete Dodd
+##' @export
 parse.parmtable <- function(data,outfile=NULL,dpl=3,testdir=NULL){
     parz <- as.character(data[,1])
     ds <- as.character(data[,2])
