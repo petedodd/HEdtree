@@ -120,7 +120,7 @@ If fewer/more labels are needed, this can be achieved using
 plotter(myt,varz=c('name'),edgelabel=FALSE)
 ```
 
-If further formatting or I/O is required, `ToDiagrammeRGraph` exports the graph as a `DiagrammeR` object (see package of the same name).
+If further formatting or I/O is required, `ToDiagrammeRGraph` exports the graph as a `DiagrammeR` object (see package of the same name). Or just assign the return value to some variable, e.g. `test`, whereupon `test$x$digram` will contain the associated DOT code.
 
 # Reading in parameters
 

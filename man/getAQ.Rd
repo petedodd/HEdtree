@@ -12,12 +12,9 @@ getAQ(node, qnt = "cost")
 \item{qnt}{}
 }
 \value{
-A string
+\code{string} to be evaluated in calculations
 }
 \description{
-Get an arbirary string for tree calculations2
-}
-\details{
 This can be used to generate a string corresponding to calculating the mean tree output for a given quantity over the tree. The tree is specified as the input \code{node}, which must be a \code{data.tree} object containing probability variables as \code{p}. The quantity to be averaged over must be a node attribute \code{qnt}, which defaults as \code{cost}.
 }
 \author{

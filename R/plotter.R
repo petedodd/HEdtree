@@ -4,7 +4,7 @@
 ##' @param node 
 ##' @param varz 
 ##' @param edgelabel 
-##' @return 
+##' @return \code{DiagrammeR} object
 ##' @author Pete Dodd
 ##' @export
 plotter <- function(node,varz=c('name','cost','qol'),edgelabel = TRUE ){
