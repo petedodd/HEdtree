@@ -4,16 +4,19 @@
 \alias{parse.parmtable}
 \title{Reading a parameter table and making utility functions}
 \usage{
-parse.parmtable(data, outfile = NULL, dpl = 3, testdir = NULL)
+parse.parmtable(data, outfile = NULL, dpl = 3, testdir = NULL,
+  qn = 0.75)
 }
 \arguments{
-\item{data}{}
+\item{data}{in data, first col parm name, second definition}
 
-\item{outfile}{}
+\item{outfile}{optional name for test table out}
 
-\item{dpl}{}
+\item{dpl}{number of dps for reporting (TODO)}
 
-\item{testdir}{}
+\item{testdir}{test directory. Settings this acts as a flag for action. TODO}
+
+\item{qn}{quantiles to report in table TODO}
 }
 \value{
 \code{list} of functions for RV computations and associated names
@@ -23,6 +26,23 @@ This function is designed to simplify the workflow by allowing specification of 
 }
 \details{
 Work in progress: need to add other distributions; testing functionality etc
+
+
+The following distributions are handled:
+
+\itemize{
+ \item{"Normal"}{defined as \code{N(mean,sd)}}
+ \item{"Log-Normal"}{defined as \code{LN(mu,sdlog)}}
+ \item{"Beta"}{defined as \code{B(a,b)}}
+}
+
+TODO document & expand inputs below,
+}
+\examples{
+tst <- parse.parmtable(data.frame(parm=c('blah','nla'),dist=c('LN(2,3)','N(2,3)')))
+tst[[1]]$r(10)
+tst[['blah']]$r(10)
+
 }
 \author{
 Pete Dodd
