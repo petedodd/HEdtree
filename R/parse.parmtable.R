@@ -51,84 +51,98 @@ parse.parmtable <- function(data,       #in data, first col parm name, second de
     dp <- unlist(lapply(dp,FUN=function(X)strsplit(X,"\\)")))
     rez <- list()
     for(i in seq_along(parz)){
-        if(com[i] & !mats[i] & !colons[i] & !vecs[i]){
-            pz <- as.numeric(unlist(strsplit(dp[i],",")))
-            rd <- switch(dss[i],
-                         LN = function(n)rlnorm(n,pz[1],pz[2]),
-                         N = function(n)rnorm(n,pz[1],pz[2]),
-                         B = function(n)rbeta(n,pz[1],pz[2]))
-            dd <- switch(dss[i],
-                         LN = function(x)dlnorm(x,pz[1],pz[2]),
-                         N = function(x)dnorm(x,pz[1],pz[2]),
-                         B = function(n)qbeta(n,pz[1],pz[2]))
-            qd <- switch(dss[i],
-                         LN = function(x)qlnorm(x,pz[1],pz[2]),
-                         N = function(x)qnorm(x,pz[1],pz[2]),
-                         B = function(n)qbeta(n,pz[1],pz[2]))
-            rez[[parz[i]]] <- list(p=pz,d=dd,r=rd,q=qd,name=dss[i])#,info=info[i,])
-        } else {
-          ## not just simple distribution
-          pn <- as.character(parz[i]); sn <- ''
-          if(colons[i]){
-            tmp <- unlist(strsplit(pn,split=":")) #first and second bits
-            tmp <- gsub(" ","",tmp)     #ditch whitespace
-            pn <- tmp[1]; sn <- tmp[2]
-            if(! pn %in% names(rez)) rez[[pn]] <- list()
-          }
-          if(mvn[i]) {                  #MVN distribution!
-            ds[i] <- gsub('MVN:','',ds[i])
-          }
-          if(mats[i]){                              #matrix
-            nr <- stringr::str_count(ds[i],"\\[")-1    #number of rows (assume sqr!)
-            ds[i] <- gsub("\\]\\s*,\\s*\\[",",",ds[i]) #gets rid of internal "],["
-            ds[i] <- gsub("\\[\\s*\\[","matrix(c(",ds[i])
-            ds[i] <- gsub("\\]\\s*\\]",
-                          paste0("),nrow=",nr,",ncol=",nr,",byrow=TRUE)"),ds[i])
-            ds[i] <- gsub("\\]",paste0("),nrow=",nr,",ncol=",nr,",byrow=TRUE)"),ds[i])
-            M <- eval(parse(text=ds[i]))
-            if(colons[i]){               #if/else
-              rez[[pn]][[sn]] <- M
-            } else{
-              rez[[pn]] <- M
-            }
-          }
-          if(vecs[i] & !mats[i]){                  #vector
-            ds[i] <- gsub("\\[","c(",ds[i])
-            ds[i] <- gsub("\\]",")",ds[i])
-            V <- eval(parse(text=ds[i]))
-            if(colons[i]){               #if/else
-              rez[[pn]][[sn]] <- V
-            } else{
-              rez[[pn]] <- V
-            }
-          }
-          if(mvn[i] & length(rez[[pn]])==2) {#MVN distribution ready
-            ## TODO pick out mean and var based on nrow
-            rez[[pn]][['name']] <- 'MVN'
-            m <- rez[[pn]][[1]]
-            V <- rez[[pn]][[2]]
-            if(is.null(nrow(V))){ tmp <- m; m <- V; V <- tmp; }
-            rez[[pn]][['d']] <- function(x) 0            #TODO
-            rez[[pn]][['r']] <- function(x) MASS::mvrnorm(n,mu=m,Sigma=V) #TODO - check
-            rez[[pn]][['q']] <- function(x) 0            #TODO
-          }
-          ## conditions for scalar
-          if(!vecs[i] & !mats[i] & !mvn[i]){
-            V <- as.numeric(ds[i])
-            if(colons[i]){               #if/else
-              rez[[pn]][[sn]] <- V
-            } else{
-              rez[[pn]] <- V
-            }
+      if(com[i] & !mats[i] & !colons[i] & !vecs[i]){
+        ne <- new.env()       #to avoid functions associating with wrong data
+        ne$parm <- parz[i]
+        ne$pz <- as.numeric(unlist(strsplit(dp[i],",")))
+        ne$name <- dss[i]
+        ne$r <- switch(dss[i],
+                     LN = function(n)rlnorm(n,pz[1],pz[2]),
+                     N = function(n)rnorm(n,pz[1],pz[2]),
+                     B = function(n)rbeta(n,pz[1],pz[2]))
+        ne$d <- switch(dss[i],
+                     LN = function(x)dlnorm(x,pz[1],pz[2]),
+                     N = function(x)dnorm(x,pz[1],pz[2]),
+                     B = function(x)dbeta(x,pz[1],pz[2]))
+        ne$q <- switch(dss[i],
+                     LN = function(x)qlnorm(x,pz[1],pz[2]),
+                     N = function(x)qnorm(x,pz[1],pz[2]),
+                     B = function(x)qbeta(x,pz[1],pz[2]))
+        environment(ne$r) <- ne
+        environment(ne$d) <- ne
+        environment(ne$q) <- ne
+        rez[[parz[i]]] <- as.list(ne)   #bit more user-friendly
+      } else {
+        ## not just simple distribution
+        pn <- as.character(parz[i]); sn <- ''
+        if(colons[i]){
+          tmp <- unlist(strsplit(pn,split=":")) #first and second bits
+          tmp <- gsub(" ","",tmp)     #ditch whitespace
+          pn <- tmp[1]; sn <- tmp[2]
+          if(! pn %in% names(rez)) rez[[pn]] <- list()
+        }
+        if(mvn[i]) {                  #MVN distribution!
+          ds[i] <- gsub('MVN:','',ds[i])
+        }
+        if(mats[i]){                              #matrix
+          nr <- stringr::str_count(ds[i],"\\[")-1    #number of rows (assume sqr!)
+          ds[i] <- gsub("\\]\\s*,\\s*\\[",",",ds[i]) #gets rid of internal "],["
+          ds[i] <- gsub("\\[\\s*\\[","matrix(c(",ds[i])
+          ds[i] <- gsub("\\]\\s*\\]",
+                        paste0("),nrow=",nr,",ncol=",nr,",byrow=TRUE)"),ds[i])
+          ds[i] <- gsub("\\]",paste0("),nrow=",nr,",ncol=",nr,",byrow=TRUE)"),ds[i])
+          M <- eval(parse(text=ds[i]))
+          if(colons[i]){               #if/else
+            rez[[pn]][[sn]] <- M
+          } else{
+            rez[[pn]] <- M
           }
         }
+        if(vecs[i] & !mats[i]){                  #vector
+          ds[i] <- gsub("\\[","c(",ds[i])
+          ds[i] <- gsub("\\]",")",ds[i])
+          V <- eval(parse(text=ds[i]))
+          if(colons[i]){               #if/else
+            rez[[pn]][[sn]] <- V
+          } else{
+            rez[[pn]] <- V
+          }
+        }
+        if(mvn[i] & length(rez[[pn]])==2) {#MVN distribution ready
+          ## TODO pick out mean and var based on nrow
+          rez[[pn]][['name']] <- 'MVN'
+          rez[[pn]]$Uchol <- chol(rez[[pn]]$sg)
+          rez[[pn]]$parm <- pn
+          ne <- list2env(x=rez[[pn]])
+          ne$r <- function(n) MASS::mvrnorm(n,mu=mn,Sigma=sg) #TODO - check
+          ne$d <- function(x) 0
+          ne$q <- function(x){
+            z <- qnorm(x)
+            z <- z %*% ne$Uchol      #make these correlated normals 
+            z + matrix(ne$mn,ncol=ncol(z),nrow=nrow(z),byrow=TRUE)
+          }          #TODO check
+          environment(ne$r) <- ne
+          environment(ne$d) <- ne
+          environment(ne$q) <- ne
+          rez[[pn]] <- as.list(ne)
+        }
+        ## conditions for scalar
+        if(!vecs[i] & !mats[i] & !mvn[i]){
+          V <- as.numeric(ds[i])
+          if(colons[i]){               #if/else
+            rez[[pn]][[sn]] <- V
+          } else{
+            rez[[pn]] <- V
+          }
+        }
+      }
     }
     if(!is.null(testdir)){
       if(is.null(outfile)) outfile <- paste0(testdir,'/out_parmtable.csv')
-      ## output tests!
+      ## output tests! TODO
     }
     rez
 }
 
-## TODO: tests, other items etc
-## add stringr to imports!
+## TODO: tests, other items, vignette etc
+
