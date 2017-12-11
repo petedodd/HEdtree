@@ -118,8 +118,8 @@ parse.parmtable <- function(data,       #in data, first col parm name, second de
           ne$d <- function(x) 0
           ne$q <- function(x){
             z <- qnorm(x)
-            z <- z %*% ne$Uchol      #make these correlated normals 
-            z + matrix(ne$mn,ncol=ncol(z),nrow=nrow(z),byrow=TRUE)
+            z <- z %*% Uchol      #make these correlated normals 
+            z + matrix(mn,ncol=ncol(z),nrow=nrow(z),byrow=TRUE)
           }          #TODO check
           environment(ne$r) <- ne
           environment(ne$d) <- ne
