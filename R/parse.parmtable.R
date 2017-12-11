@@ -65,7 +65,7 @@ parse.parmtable <- function(data,       #in data, first col parm name, second de
                          LN = function(x)qlnorm(x,pz[1],pz[2]),
                          N = function(x)qnorm(x,pz[1],pz[2]),
                          B = function(n)qbeta(n,pz[1],pz[2]))
-            rez[[parz[i]]] <- list(d=dd,r=rd,q=qd,name=dss[i])#,info=info[i,])
+            rez[[parz[i]]] <- list(p=pz,d=dd,r=rd,q=qd,name=dss[i])#,info=info[i,])
         } else {
           ## not just simple distribution
           pn <- as.character(parz[i]); sn <- ''
