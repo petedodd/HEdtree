@@ -52,6 +52,7 @@ parse.parmtable <- function(data,       #in data, first col parm name, second de
     rez <- list()
     for(i in seq_along(parz)){
       if(com[i] & !mats[i] & !colons[i] & !vecs[i]){
+        ## TODO this could be probably simplified using lapply
         ne <- new.env()       #to avoid functions associating with wrong data
         ne$parm <- parz[i]
         ne$pz <- as.numeric(unlist(strsplit(dp[i],",")))
@@ -109,7 +110,6 @@ parse.parmtable <- function(data,       #in data, first col parm name, second de
           }
         }
         if(mvn[i] & length(rez[[pn]])==2) {#MVN distribution ready
-          ## TODO pick out mean and var based on nrow
           rez[[pn]][['name']] <- 'MVN'
           rez[[pn]]$Uchol <- chol(rez[[pn]]$sg)
           rez[[pn]]$parm <- pn
@@ -140,6 +140,22 @@ parse.parmtable <- function(data,       #in data, first col parm name, second de
     if(!is.null(testdir)){
       if(is.null(outfile)) outfile <- paste0(testdir,'/out_parmtable.csv')
       ## output tests! TODO
+      ## plots
+      for(i in 1:length(rez)){
+        if(length(rez[[i]])>1){
+          pdf(paste0(testdir,'/',rez[[i]]$parm,'.pdf'))
+          if(rez[[i]]$name=='LN')
+            curve(rez[[i]]$d(x),from=exp(rez[[i]]$pz[1] - 3*rez[[i]]$pz[2]),to=exp(rez[[i]]$pz[1] + 3*rez[[i]]$pz[2]),n=200)
+          if(rez[[i]]$name=='N')
+            curve(rez[[i]]$d(x),from=(rez[[i]]$pz[1] - 3*rez[[i]]$pz[2]),to=(rez[[i]]$pz[1] + 3*rez[[i]]$pz[2]),n=200)
+          if(rez[[i]]$name=='B')
+            curve(rez[[i]]$d(x),from=0,to=1,n=200)
+          if(rez[[i]]$name=='MVN')
+            plot(rez[[i]]$r(1e3))
+          title(rez[[i]]$parm)
+          dev.off()
+        }
+      }
     }
     rez
 }
