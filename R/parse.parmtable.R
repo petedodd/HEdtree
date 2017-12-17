@@ -114,13 +114,13 @@ parse.parmtable <- function(data,       #in data, first col parm name, second de
           rez[[pn]]$Uchol <- chol(rez[[pn]]$sg)
           rez[[pn]]$parm <- pn
           ne <- list2env(x=rez[[pn]])
-          ne$r <- function(n) MASS::mvrnorm(n,mu=mn,Sigma=sg) #TODO - check
+          ne$r <- function(n) MASS::mvrnorm(n,mu=mn,Sigma=sg) 
           ne$d <- function(x) 0
           ne$q <- function(x){
             z <- qnorm(x)
             z <- z %*% Uchol      #make these correlated normals 
             z + matrix(mn,ncol=ncol(z),nrow=nrow(z),byrow=TRUE)
-          }          #TODO check
+          }          
           environment(ne$r) <- ne
           environment(ne$d) <- ne
           environment(ne$q) <- ne
@@ -140,9 +140,11 @@ parse.parmtable <- function(data,       #in data, first col parm name, second de
     if(!is.null(testdir)){
       if(is.null(outfile)) outfile <- paste0(testdir,'/out_parmtable.csv')
       ## output tests! TODO
+      otbl <- list()
       ## plots
       for(i in 1:length(rez)){
         if(length(rez[[i]])>1){
+          ## plots
           pdf(paste0(testdir,'/',rez[[i]]$parm,'.pdf'))
           if(rez[[i]]$name=='LN')
             curve(rez[[i]]$d(x),from=exp(rez[[i]]$pz[1] - 3*rez[[i]]$pz[2]),to=exp(rez[[i]]$pz[1] + 3*rez[[i]]$pz[2]),n=200)
@@ -154,11 +156,23 @@ parse.parmtable <- function(data,       #in data, first col parm name, second de
             plot(rez[[i]]$r(1e3))
           title(rez[[i]]$parm)
           dev.off()
+          ## quantiles
+          if(rez[[i]]$name!='MVN')
+            otbl[[rez[[i]]$parm]] <- data.frame(parm=rez[[i]]$parm,mid=rez[[i]]$q(.5),
+                                          lo=rez[[i]]$q(1-qn),hi=rez[[i]]$q(qn))
         }
       }
+      otbl <- do.call('rbind',otbl)
+      otbl$mid <- round(as.numeric(otbl$mid),digits=dpl)
+      otbl$hi <- round(as.numeric(otbl$hi),digits=dpl)
+      otbl$lo <- round(as.numeric(otbl$lo),digits=dpl)
+      otbl$qrng <- paste0('(',otbl$lo,' - ',otbl$hi,')')
+      otbl$mqrng <- paste0(otbl$mid,' ',otbl$qrng)
+      print(head(otbl))
+      write.csv(otbl,file=outfile)
     }
     rez
 }
 
-## TODO: tests, other items, vignette etc
-
+## TODO:  other items, vignette etc
+## TODO for test out table: enforce zeros, drop rownames
