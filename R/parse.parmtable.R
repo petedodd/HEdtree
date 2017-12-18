@@ -163,16 +163,16 @@ parse.parmtable <- function(data,       #in data, first col parm name, second de
         }
       }
       otbl <- do.call('rbind',otbl)
-      otbl$mid <- round(as.numeric(otbl$mid),digits=dpl)
-      otbl$hi <- round(as.numeric(otbl$hi),digits=dpl)
-      otbl$lo <- round(as.numeric(otbl$lo),digits=dpl)
+      fmt <- paste0("%.",dpl,"f")
+      otbl$mid <- sprintf(fmt,as.numeric(otbl$mid))
+      otbl$hi <- sprintf(fmt,as.numeric(otbl$hi))
+      otbl$lo <- sprintf(fmt,as.numeric(otbl$lo))
       otbl$qrng <- paste0('(',otbl$lo,' - ',otbl$hi,')')
       otbl$mqrng <- paste0(otbl$mid,' ',otbl$qrng)
-      print(head(otbl))
-      write.csv(otbl,file=outfile)
+      write.csv(otbl,file=outfile,row.names=FALSE)
     }
     rez
 }
 
 ## TODO:  other items, vignette etc
-## TODO for test out table: enforce zeros, drop rownames
+
