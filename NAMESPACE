@@ -2,6 +2,8 @@
 
 export(getAQ)
 export(makeTfuns)
+export(org2LoL)
+export(org2tree)
 export(parse.parmtable)
 export(plotter)
 export(showParmz)
