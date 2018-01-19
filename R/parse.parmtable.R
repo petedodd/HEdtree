@@ -139,7 +139,6 @@ parse.parmtable <- function(data,       #in data, first col parm name, second de
     }
     if(!is.null(testdir)){
       if(is.null(outfile)) outfile <- paste0(testdir,'/out_parmtable.csv')
-      ## output tests! TODO
       otbl <- list()
       ## plots
       for(i in 1:length(rez)){
