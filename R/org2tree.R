@@ -1,4 +1,12 @@
-## utility function (recursive, not exported)
+##' This does the work underlying \code{org2LoL} and \code{org2tree}. The function recursively evaluates to parse Emacs org-mode files. 
+##'
+##' @title Utility function for \code{org2LoL}
+##' @param inp 
+##' @param lvl 
+##' @param LVLS 
+##' @return A \code{list} of \code{list}s
+##' @author Pete Dodd
+##' @export
 orgAns0 <- function(inp,lvl,LVLS){
   tpz <- which(LVLS==lvl)
   if(length(tpz)==0) return(NULL)
