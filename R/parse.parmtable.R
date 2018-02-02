@@ -18,6 +18,7 @@
 ##' @param dpl number of dps for reporting (TODO)
 ##' @param testdir test directory. Settings this acts as a flag for action. TODO
 ##' @param qn quantiles to report in table TODO
+##' @param tgphfmt test graph format (default 'png', otherwide 'pdf')
 ##' @return \code{list} of functions for RV computations and associated names
 ##' @examples
 ##' tst <- parse.parmtable(data.frame(parm=c('blah','nla'),dist=c('LN(2,3)','N(2,3)')))
@@ -33,7 +34,7 @@ parse.parmtable <- function(data,       #in data, first col parm name, second de
                             dpl=3,        #number of dps for reporting (TODO)
                             testdir=NULL, #test directory & flag TODO
                             qn=.75,        #quantiles to report in table TODO
-                            gph='png'     #type of graphs to use
+                            tgphfmt='png'     #type of graphs to use
                             ){
     parz <- as.character(data[,1])
     ds <- as.character(data[,2])
@@ -145,8 +146,8 @@ parse.parmtable <- function(data,       #in data, first col parm name, second de
       for(i in 1:length(rez)){
         if(length(rez[[i]])>1){
           ## plots
-          if(gph=='pdf') pdf(paste0(testdir,'/',rez[[i]]$parm,'.pdf'))
-          if(gph=='png') png(paste0(testdir,'/',rez[[i]]$parm,'.png'))
+          if(tgphfmt=='pdf') pdf(paste0(testdir,'/',rez[[i]]$parm,'.pdf'))
+          if(tgphfmt=='png') png(paste0(testdir,'/',rez[[i]]$parm,'.png'))
           if(rez[[i]]$name=='LN')
             curve(rez[[i]]$d(x),from=exp(rez[[i]]$pz[1] - 3*rez[[i]]$pz[2]),to=exp(rez[[i]]$pz[1] + 3*rez[[i]]$pz[2]),n=200)
           if(rez[[i]]$name=='N')
