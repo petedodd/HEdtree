@@ -33,7 +33,7 @@ parse.parmtable <- function(data,       #in data, first col parm name, second de
                             dpl=3,        #number of dps for reporting (TODO)
                             testdir=NULL, #test directory & flag TODO
                             qn=.75,        #quantiles to report in table TODO
-                            grph='png'     #type of graphs to use
+                            gph='png'     #type of graphs to use
                             ){
     parz <- as.character(data[,1])
     ds <- as.character(data[,2])
