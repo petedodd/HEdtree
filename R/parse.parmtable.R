@@ -32,7 +32,8 @@ parse.parmtable <- function(data,       #in data, first col parm name, second de
                             outfile=NULL, #name for test table out
                             dpl=3,        #number of dps for reporting (TODO)
                             testdir=NULL, #test directory & flag TODO
-                            qn=.75        #quantiles to report in table TODO
+                            qn=.75,        #quantiles to report in table TODO
+                            grph='png'     #type of graphs to use
                             ){
     parz <- as.character(data[,1])
     ds <- as.character(data[,2])
@@ -144,7 +145,8 @@ parse.parmtable <- function(data,       #in data, first col parm name, second de
       for(i in 1:length(rez)){
         if(length(rez[[i]])>1){
           ## plots
-          pdf(paste0(testdir,'/',rez[[i]]$parm,'.pdf'))
+          if(gph=='pdf') pdf(paste0(testdir,'/',rez[[i]]$parm,'.pdf'))
+          if(gph=='png') png(paste0(testdir,'/',rez[[i]]$parm,'.png'))
           if(rez[[i]]$name=='LN')
             curve(rez[[i]]$d(x),from=exp(rez[[i]]$pz[1] - 3*rez[[i]]$pz[2]),to=exp(rez[[i]]$pz[1] + 3*rez[[i]]$pz[2]),n=200)
           if(rez[[i]]$name=='N')
