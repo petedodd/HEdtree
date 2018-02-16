@@ -13,7 +13,7 @@ getLNparms <- function(mid,var,med=TRUE){
     x <- (1+sqrt(1+4*var/mid^2))/2
     ans <- list(mu=mu,sig=sqrt(log(x)))
   } else {
-    s2 <- log(1+V/mid^2)
+    s2 <- log(1+var/mid^2)
     mu <- log(mid) - s2/2
     ans <- list(mu=mu,sig=sqrt(s2))
   }
