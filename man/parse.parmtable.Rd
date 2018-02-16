@@ -5,7 +5,7 @@
 \title{Reading a parameter table and making utility functions}
 \usage{
 parse.parmtable(data, outfile = NULL, dpl = 3, testdir = NULL,
-  qn = 0.75)
+  qn = 0.75, tgphfmt = "png")
 }
 \arguments{
 \item{data}{in data, first col parm name, second definition}
@@ -17,6 +17,8 @@ parse.parmtable(data, outfile = NULL, dpl = 3, testdir = NULL,
 \item{testdir}{test directory. Settings this acts as a flag for action. TODO}
 
 \item{qn}{quantiles to report in table TODO}
+
+\item{tgphfmt}{test graph format (default 'png', otherwide 'pdf')}
 }
 \value{
 \code{list} of functions for RV computations and associated names
