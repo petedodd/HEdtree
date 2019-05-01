@@ -8,18 +8,20 @@
 ##' @author Pete Dodd
 ##' @export
 orgAns0 <- function(inp,lvl,LVLS){
-  tpz <- which(LVLS==lvl)
-  if(length(tpz)==0) return(NULL)
+  tpz <- which(LVLS==lvl);
   ans <- list()
-  for(i in seq_along(tpz)){
-    st <- tpz[i]
-    if(i < length(tpz))
-      nd <- tpz[i+1]
-    else nd <- length(inp)
-    ans[[inp[st]]] <- orgAns0(inp[st:nd],lvl+1,LVLS[st:nd])
+  if( length(tpz)>0 ){
+    for(i in seq_along(tpz)){
+      st <- tpz[i]
+      if(i < length(tpz))
+        nd <- tpz[i+1]
+      else nd <- length(inp)
+      ans[[inp[st]]] <- orgAns0(inp[st:nd],lvl+1,LVLS[st:nd])
+    }
   }
   ans
 }
+
 
 ##' This function reads and Emacs org-mode file and generates a list-of-lists. This is used primarily as an intermediate: \code{org2tree} returns a \code{data.tree} directly.
 ##'
