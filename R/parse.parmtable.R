@@ -8,6 +8,7 @@
 ##'  \item{"Normal"}{defined as \code{N(mean,sd)}}
 ##'  \item{"Log-Normal"}{defined as \code{LN(mu,sdlog)}}
 ##'  \item{"Beta"}{defined as \code{B(a,b)}}
+##'  \item{"Exponential"}{defined as \code{E(rate)}}
 ##' }
 ##'
 ##' TODO document & expand inputs below,
@@ -42,9 +43,9 @@ parse.parmtable <- function(data,       #in data, first col parm name, second de
     ## if(ncol(data)>3)                    #any extra info stored in case useful
     ##   info <- apply(data[,3:ncol(data)],2,as.character)
     ## process ds
-    com <- grepl(',',ds)                #commas
-    mvn <- grepl('MVN',ds)              #MVN
-    colons <- grepl(':',parz)           #colons
+    com <- grepl(',',ds)|grepl('E\\(',ds)   #commas or single parms
+    mvn <- grepl('MVN',ds)                  #MVN
+    colons <- grepl(':',parz)               #colons
     vecs <- stringr::str_count(ds,"\\[") > 0 #vectors
     mats <- stringr::str_count(ds,"\\[") > 1 #matrices
     sp <- strsplit(ds,'\\(')
@@ -62,15 +63,18 @@ parse.parmtable <- function(data,       #in data, first col parm name, second de
         ne$r <- switch(dss[i],
                      LN = function(n)rlnorm(n,pz[1],pz[2]),
                      N = function(n)rnorm(n,pz[1],pz[2]),
-                     B = function(n)rbeta(n,pz[1],pz[2]))
+                     B = function(n)rbeta(n,pz[1],pz[2]),
+                     E = function(n)rexp(n,pz))
         ne$d <- switch(dss[i],
                      LN = function(x)dlnorm(x,pz[1],pz[2]),
                      N = function(x)dnorm(x,pz[1],pz[2]),
-                     B = function(x)dbeta(x,pz[1],pz[2]))
+                     B = function(x)dbeta(x,pz[1],pz[2]),
+                     E = function(x)dexp(x,pz))
         ne$q <- switch(dss[i],
                      LN = function(x)qlnorm(x,pz[1],pz[2]),
                      N = function(x)qnorm(x,pz[1],pz[2]),
-                     B = function(x)qbeta(x,pz[1],pz[2]))
+                     B = function(x)qbeta(x,pz[1],pz[2]),
+                     E = function(x)qexp(x,pz))
         environment(ne$r) <- ne
         environment(ne$d) <- ne
         environment(ne$q) <- ne
@@ -122,7 +126,7 @@ parse.parmtable <- function(data,       #in data, first col parm name, second de
             z <- qnorm(x)
             z <- z %*% Uchol      #make these correlated normals 
             z + matrix(mn,ncol=ncol(z),nrow=nrow(z),byrow=TRUE)
-          }          
+          }
           environment(ne$r) <- ne
           environment(ne$d) <- ne
           environment(ne$q) <- ne
@@ -154,6 +158,8 @@ parse.parmtable <- function(data,       #in data, first col parm name, second de
             curve(rez[[i]]$d(x),from=(rez[[i]]$pz[1] - 3*rez[[i]]$pz[2]),to=(rez[[i]]$pz[1] + 3*rez[[i]]$pz[2]),n=200)
           if(rez[[i]]$name=='B')
             curve(rez[[i]]$d(x),from=0,to=1,n=200)
+          if(rez[[i]]$name=='E')
+            curve(rez[[i]]$d(x),from=0,to=5/rez[[i]]$pz,n=200)
           if(rez[[i]]$name=='MVN')
             plot(rez[[i]]$r(1e3))
           title(rez[[i]]$parm)
