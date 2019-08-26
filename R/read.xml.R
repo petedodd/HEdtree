@@ -135,3 +135,12 @@ keyvalue <- function(x){
   ss <- strsplit(x,'=')[[1]]
   nospace(ss)
 }
+
+##' @title Utility to get last split
+##' @param x string
+##' @return string
+##' @author Pete Dodd
+bot <- function(x){
+  tmp <- strsplit(x,split = '\\.')[[1]]
+  tmp[length(tmp)]
+}
