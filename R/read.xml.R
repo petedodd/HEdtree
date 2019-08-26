@@ -1,18 +1,14 @@
-##' This function is designed to read in trees from draw.io exported as (uncompressed) xml
-##'
+##' This function is designed to read in trees from draw.io exported as
+##' (uncompressed) xml
 ##' @details
-##'
 ##' Node names are arbitrary (but <br> is stripped from strings).
-##'
 ##' Edge data is best specified as p=1,c=c2 etc. p is treated as a probability.
 ##' Here a variable called c is created, but a different name and an arbitrary number
 ##' of other variables can be added. Whitespace is stripped.
 ##' A utility variable called check is added to leaves to facilitate testing/debugging.
-##'
 ##' @title Reads a tree and returns
 ##' @param fn The filename of the file to be read.
 ##' @return A data.tree of with specified node names and data.
-##'
 ##' @author Pete Dodd
 ##' @import data.table
 ##' @import data.tree
