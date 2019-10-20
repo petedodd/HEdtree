@@ -24,15 +24,34 @@ read.xml <- function(fn){
   if(length(mxc)==0) stop('No mxCell tags found! Is the input file from draw.io?')
 
   ## use this to grab edges and vertices
-  VL <- EL <- CL <- list()
+  VL <- EL <- CL <- SL <- XL <- list()
   for( i in 1:length(mxc) ){
     T <- xml2::xml_attrs(mxc[i])[[1]]
     if('vertex' %in% names(T) & !('connectable' %in% names(T)) ){
       VL[[i]] <- data.table::data.table(vid=T['id'],vvalue=T['value'])
+      T2 <- xml_attrs(xml_find_all(mxc[i],".//mxGeometry"))[[1]]
+      XL[[i]] <- data.table::data.table(vid=T['id'],
+                                        vvalue=T['value'],
+                                        x=as.numeric(T2['x']),
+                                        y=as.numeric(T2['y']),
+                                        width=as.numeric(T2['width']),
+                                        height=as.numeric(T2['height'])
+                                        )
     }
     if('edge' %in% names(T)) {
-      EL[[i]] <- data.table::data.table(eid=T['id'],evalue=T['value'],
-                            src=T['source'],target=T['target'])
+      EL[[i]] <- data.table::data.table(eid=T['id'],
+                                        evalue=T['value'],
+                                        src=T['source'],
+                                        target=T['target'])
+      if(is.na(T['source'])){           #by geom if missing
+        T2 <- xml_attrs(xml_find_all(mxc[i],".//mxPoint"))[[1]]
+        if(T2['as']=='sourcePoint')
+          SL[[i]] <- data.table::data.table(eid=T['id'],
+                                            evalue=T['value'],
+                                            src.x=as.numeric(T2['x']),
+                                            src.y=as.numeric(T2['y']),
+                                            target=T['target'])
+      }
     }
     if( 'vertex' %in% names(T) & 'connectable' %in% names(T) ){
       CL[[i]] <- data.table::data.table(eid=T['id'],evalue=T['value'],src=T['parent'])
@@ -41,6 +60,8 @@ read.xml <- function(fn){
   VL <- data.table::rbindlist(VL)
   EL <- data.table::rbindlist(EL)
   CL <- data.table::rbindlist(CL)
+  XL <- data.table::rbindlist(XL)
+  SL <- data.table::rbindlist(SL)
 
   ## dealing with edges of 'connectable' form
   if(nrow(CL)>0){
@@ -49,10 +70,25 @@ read.xml <- function(fn){
   }
 
   ## merge edge data in
-  VL <- merge(VL,EL,by.x = 'vid', by.y = 'target',all.x = TRUE, all.y=FALSE)
+  VL <- merge(VL,EL,by.x = 'vid', by.y = 'target',
+              all.x = TRUE, all.y=FALSE)
 
   ## get rid of <br>
   VL[,vvalue:=nobr(vvalue)]
+
+  ## deal with edges not logically connected
+  if(nrow(SL)){
+    warning('Some connections are based on location. Please check tree geometry is as expected.\n')
+    for(i in 1:nrow(SL)){
+      cat('Seaching by location for parent to node:',
+          VL[vid==SL[i,target],vvalue],'\n')
+      px <- c(SL[i,src.x],SL[i,src.y])
+      src0 <- NA
+      for(j in 1:nrow(XL))
+        if( insq(px,XL[j,x],XL[j,y],XL[j,width],XL[j,height]) ) src0 <- XL[j,vid]
+      if(!is.na(src0)) VL[vid==SL[i,target],src:=src0]
+    }
+  }
 
   ## add in srcnm
   tmp <- VL[,c('vid','vvalue')]
@@ -103,9 +139,9 @@ read.xml <- function(fn){
   ## convert to data.tree object
   DT <- data.tree::as.Node(VL)
 
-  ## add check to leaves (NOTE needs data.tree loaded) TODO find out how to avoid
+  ## add debug checks
   DT$Set(check=0)
-  DT$Set(check=1,filterFun=isLeaf)
+  DT$Set(check=1,filterFun=data.tree::isLeaf)
   return(DT)
 }
 
@@ -143,4 +179,17 @@ keyvalue <- function(x){
 bot <- function(x){
   tmp <- strsplit(x,split = '\\.')[[1]]
   tmp[length(tmp)]
+}
+
+##' @title Utility to check if in a box
+##' @param p 2-vector location
+##' @param X x value of top left
+##' @param Y y value of top left (measured downwards)
+##' @param W width
+##' @param H height
+##' @param tol a tolerance by which the box is expanded
+##' @return boolean
+##' @author Pete Dodd
+insq <- function(p,X,Y,W,H,tol=10){            #measures y downwards
+  all((p[1]<=X+W+tol),(p[1]>=X-tol),(p[2]<=Y+H+tol),(p[2]>=Y-tol))
 }
