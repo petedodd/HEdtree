@@ -14,7 +14,7 @@
 ##' @import data.tree
 ##' @import xml2
 ##' @export
-read.xml <- function(fn){
+read.xml <- function(fn,AllowDuplicateNodes=FALSE){
   ## check filename for xml
   dat <-  xml2::read_xml(fn) #read in
   if(bot(fn)!='xml') stop('Expecting an xml file! Rename if you are sure it is one!')
@@ -29,7 +29,7 @@ read.xml <- function(fn){
     T <- xml2::xml_attrs(mxc[i])[[1]]
     if('vertex' %in% names(T) & !('connectable' %in% names(T)) ){
       VL[[i]] <- data.table::data.table(vid=T['id'],vvalue=T['value'])
-      T2 <- xml_attrs(xml_find_all(mxc[i],".//mxGeometry"))[[1]]
+      T2 <- xml2::xml_attrs(xml2::xml_find_all(mxc[i],".//mxGeometry"))[[1]]
       XL[[i]] <- data.table::data.table(vid=T['id'],
                                         vvalue=T['value'],
                                         x=as.numeric(T2['x']),
@@ -44,7 +44,7 @@ read.xml <- function(fn){
                                         src=T['source'],
                                         target=T['target'])
       if(is.na(T['source'])){           #by geom if missing
-        T2 <- xml_attrs(xml_find_all(mxc[i],".//mxPoint"))[[1]]
+        T2 <- xml2::xml_attrs(xml2::xml_find_all(mxc[i],".//mxPoint"))[[1]]
         if(T2['as']=='sourcePoint')
           SL[[i]] <- data.table::data.table(eid=T['id'],
                                             evalue=T['value'],
@@ -117,24 +117,46 @@ read.xml <- function(fn){
   }                                       #end check any edge data
 
   ## new go at pathstring parsing
-  rid <- VL[is.na(VL$srcnm)]$vvalue
-  if(length(rid)==0) stop('No root found!')
-  if(length(rid)>1) stop('Multiple root candidates found!')
-  VL$pathString <- VL$vvalue
-  for(i in 1:nrow(VL)){
-    nw <- VL$vvalue[i]
-    nxt <- VL[VL$vvalue==nw]$srcnm
-    sfty <- 0
-    while( !is.na(nxt) & sfty<nrow(VL) ){
-      VL$pathString[i] <- paste(nxt,VL$pathString[i],sep='/')
-      nw <- nxt
-      nxt <- VL[VL$vvalue==nw]$srcnm
-      sfty <- sfty + 1
+  if(AllowDuplicateNodes){
+    ## pathstring parsing
+    rid <- VL[is.na(VL$src)]$vid
+    if(length(rid)==0) stop('No root found!')
+    if(length(rid)>1) stop('Multiple root candidates found!')
+    VL$pathString <- VL$vid
+    for(i in 1:nrow(VL)){
+      nw <- VL$vid[i]
+      nxt <- VL[VL$vid==nw]$src
+      sfty <- 0
+      while( !is.na(nxt) & sfty<nrow(VL) ){
+        VL$pathString[i] <- paste(nxt,VL$pathString[i],sep='/')
+        nw <- nxt
+        nxt <- VL[VL$vid==nw]$src
+        sfty <- sfty + 1
+      }
     }
+    VL[,nodename:=vvalue]
+    ## clean out some variables
+    VL[,c('src','vid','vvalue','eid','evalue','srcnm'):=NULL]
+  } else {
+    rid <- VL[is.na(VL$srcnm)]$vvalue
+    if(length(rid)==0) stop('No root found!')
+    if(length(rid)>1) stop('Multiple root candidates found!')
+    VL$pathString <- VL$vvalue
+    for(i in 1:nrow(VL)){
+      nw <- VL$vvalue[i]
+      nxt <- VL[VL$vvalue==nw]$srcnm
+      sfty <- 0
+      while( !is.na(nxt) & sfty<nrow(VL) ){
+        VL$pathString[i] <- paste(nxt,VL$pathString[i],sep='/')
+        nw <- nxt
+        nxt <- VL[VL$vvalue==nw]$srcnm
+        sfty <- sfty + 1
+      }
+    }
+    
+    ## clean out some variables
+    VL[,c('src','vid','vvalue','eid','evalue','srcnm'):=NULL]
   }
-
-  ## clean out some variables
-  VL[,c('src','vid','vvalue','eid','evalue','srcnm'):=NULL]
 
   ## convert to data.tree object
   DT <- data.tree::as.Node(VL)
