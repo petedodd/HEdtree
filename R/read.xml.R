@@ -101,7 +101,7 @@ read.xml <- function(fn,AllowDuplicateNodes=FALSE){
   if(!all(is.na(VL$evalue))){             #edge data?
     for(i in 1:nrow(VL)){
       if(!is.na(VL[i]$evalue)){
-        if(grepl(',',VL[i]$evalue)){      # CSV
+        if(grepl(',',VL[i]$evalue)|grepl('=',VL[i]$evalue)){      # CSV or =
           tt <- read.csv(text=VL[i]$evalue,header=FALSE, #parse CSV
                          strip.white = TRUE,stringsAsFactors = FALSE)
           for( k in 1:length(tt)){
