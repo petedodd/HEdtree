@@ -4,7 +4,7 @@
 \alias{read.xml}
 \title{Reads a tree and returns}
 \usage{
-read.xml(fn)
+read.xml(fn, AllowDuplicateNodes = FALSE)
 }
 \arguments{
 \item{fn}{The filename of the file to be read.}
