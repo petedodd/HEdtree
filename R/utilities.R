@@ -36,4 +36,50 @@ getAB <- function(E,V){
     return(list(a=a,b=b))
 }
 
+##' Utility function to trim whitespace
+##'
+##' @title Trim whitespace
+##' @param x 
+##' @return 
+##' @author Pete Dodd
+##' @export
+trm <- function(x)gsub(" ","",x)
 
+##' Utility function for extracting midpoint from bracketed uncertainty ranges
+##'
+##' Expects something like M (Mlo,Mhi) or M (Mlo - Mhi) 
+##' @title Get midpoint from CIs
+##' @param x 
+##' @return numeric
+##' @author Pete Dodd
+##' @export
+midpnt <- function(x){
+  x <- gsub("(.?)\\(.*","\\1",x,perl=TRUE)
+  as.numeric(trm(x))
+}
+
+##' Utility function for extracting low point from bracketed uncertainty ranges
+##'
+##' Expects something like M (Mlo,Mhi) or M (Mlo - Mhi) 
+##' @title Get low point from CIs
+##' @param x 
+##' @return numeric 
+##' @author Pete Dodd
+##' @export
+lopnt <- function(x){
+  x <- gsub(".*\\((.*?)[,|-].*","\\1",x,perl=TRUE)
+  as.numeric(trm(x))
+}
+
+##' Utility function for extracting high point from bracketed uncertainty ranges
+##'
+##' Expects something like M (Mlo,Mhi) or M (Mlo - Mhi) 
+##' @title Get high point from CIs
+##' @param x 
+##' @return numeric
+##' @author Pete Dodd
+##' @export
+hipnt <- function(x){
+  x <- gsub(".*[,|-](.*?)\\).*","\\1",x,perl=TRUE)
+  as.numeric(trm(x))
+}
