@@ -9,6 +9,9 @@ trm(x)
 \arguments{
 \item{x}{}
 }
+\value{
+string
+}
 \description{
 Utility function to trim whitespace
 }

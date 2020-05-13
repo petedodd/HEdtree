@@ -40,7 +40,7 @@ getAB <- function(E,V){
 ##'
 ##' @title Trim whitespace
 ##' @param x 
-##' @return 
+##' @return string 
 ##' @author Pete Dodd
 ##' @export
 trm <- function(x)gsub(" ","",x)
@@ -83,3 +83,25 @@ hipnt <- function(x){
   x <- gsub(".*[,|-](.*?)\\).*","\\1",x,perl=TRUE)
   as.numeric(trm(x))
 }
+
+
+## ======== tree manipulation utility functions ========
+
+##' Merge a tree onto another by node name
+##'
+##' @title Merge a tree onto another by node name
+##' @param rootnode 
+##' @param nodetoadd 
+##' @param nodename 
+##' @param usecase 
+##' @return NULL
+##' @author Pete Dodd
+##' @export
+MergeByName <- function(rootnode,nodetoadd,nodename,usecase=TRUE){
+  rootnode$Do( function(node)
+    for(K in nodetoadd$children ) node$AddChildNode(Clone(K)),
+    filterFun = function(x)x$name==nodename #TODO usecase
+    )
+  ## by side-effect
+}
+
