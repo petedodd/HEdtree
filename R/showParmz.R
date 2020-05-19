@@ -14,6 +14,8 @@ showParmz <- function(node,parmz=c('cost','p','qol')){
   calx <- grepl("[*|(|)|+|/|-]",varnmz) #which are calculations
   calcs <- varnmz[calx]                 #calculations
   varnmz <- varnmz[!calx]               #atomic
+  varnmz <- varnmz[varnmz!='0']
+  varnmz <- varnmz[varnmz!='1']
   print(varnmz)
   varnmz <- unique(varnmz)
   calcs <- unique(calcs)
