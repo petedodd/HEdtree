@@ -40,6 +40,7 @@ org2LoL <- function(fn){
   txt <- txt[bulz]
   lvls <- as.numeric(regexpr("\\s",txt))-1 #get level of bullet
   txt <- gsub("^\\*+\\s","",txt)        #strip stars
+  txt <- gsub("^\\s+|\\s+$", "", txt)   #strip leading/trailing space
   return(orgAns0(txt,1,lvls))
 }
 
@@ -72,6 +73,7 @@ MSorg2tree <- function(fn){
   txt <- txt[bulz]
   lvls <- as.numeric(regexpr("\\s",txt))-1 #get level of bullet
   txt <- gsub("^\\*+\\s","",txt)        #strip stars
+  txt <- gsub("^\\s+|\\s+$", "", txt)   #strip leading/trailing space
   tmp <- orgAns0(txt,1,lvls)
   as.Node(tmp)
 }
