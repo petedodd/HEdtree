@@ -84,6 +84,25 @@ hipnt <- function(x){
   as.numeric(trm(x))
 }
 
+##' Logit function
+##'
+##' @title Logit function
+##' @param x 
+##' @return 
+##' @author Pete Dodd
+##' @export
+logit <- function(x)log(x/(1-x))
+
+##' Inverse logit function
+##'
+##' @title Inverse logit function
+##' @param x 
+##' @return 
+##' @author Pete Dodd
+##' @export
+ilogit <- function(x)exp(x)/(1+exp(x))
+
+
 
 ## ======== tree manipulation utility functions ========
 
@@ -105,3 +124,22 @@ MergeByName <- function(rootnode,nodetoadd,nodename,usecase=TRUE){
   ## by side-effect
 }
 
+##' Ditch the top of tree on reading
+##'
+##' @title Ditch the top of tree on reading
+##' @param x 
+##' @return 
+##' @author Pete Dodd
+##' @export
+top <- function(x) x$children[[1]]
+
+##' Ditch the top of tree on reading
+##'
+##' @title Ditch the top of tree on reading
+##' @param tree tree to plot
+##' @param fn file name
+##' @return NULL
+##' @author Pete Dodd
+##' @export
+savetreeplot <- function(tree,fn)
+  DiagrammeR::export_graph(data.tree::ToDiagrammeRGraph(tree),file_name=fn)

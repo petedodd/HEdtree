@@ -14,7 +14,8 @@ Imports:
     reshape2,
     MASS,
     stringr,
-    xml2
+    xml2,
+    DiagrammeR
 Suggests: knitr,
     rmarkdown
 VignetteBuilder: knitr
