@@ -16,7 +16,7 @@ showParmz <- function(node,parmz=c('cost','p','qol')){
   varnmz <- varnmz[!calx]               #atomic
   varnmz <- varnmz[varnmz!='0']
   varnmz <- varnmz[varnmz!='1']
-  print(varnmz)
+  ## print(varnmz)
   varnmz <- unique(varnmz)
   calcs <- unique(calcs)
   list(vars=varnmz,calcs=calcs)
