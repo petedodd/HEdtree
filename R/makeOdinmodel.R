@@ -1,12 +1,13 @@
 ##' @title Making Odin ODEs from tree
 ##' @param tree 
-##' @param basename 
+##' @param rootname
+##' @param rootinflow
 ##' @return list 
 ##' @author Pete Dodd
 ##' @export 
-makeOdinModel <- function(tree,basename='N1'){
+makeOdinModel <- function(tree,rootname='N1',rootinflow='0'){
   ## add aliased names: should work by side-effect on tree
-  tree$Set(oname=basename)
+  tree$Set(oname=rootname)
   tree$Do(function(node) if(!node$isLeaf){
                          for(i in 1:node$count)
                            node$children[[i]]$oname <- paste(node$oname,i,
@@ -28,6 +29,7 @@ makeOdinModel <- function(tree,basename='N1'){
   DFU <- merge(DFU,DF[T!=0,.(oname=onameto,inrates)],
                by='oname',all.x = TRUE)
   DFU[is.na(inrates),inrates:='0']
+  DFU[oname==rootname,inrates:=rootinflow]
 
   ## make outrates
   DF[,outrates:=paste0(oname,'/(',T,')')]
@@ -37,9 +39,11 @@ makeOdinModel <- function(tree,basename='N1'){
   ## finalize dynamics
   DFU[,dyx:=paste0('deriv(',oname,') <- ',inrates,' - ',outrates)]
 
+  print(DFU[,.(oname,inits,inrates,outrates,dyx)])
+
   ## grab parameters
   tmp <- showParmz(tree,parmz=c('p','T'))
-  pmz <- tmp$vars #TODO this needs correcting no ltfu2.3
+  pmz <- tmp$vars
   pmz <- pmz[pmz!='0']
   pmz <- pmz[pmz!='1']
   tmp <- tmp$calcs
@@ -48,11 +52,13 @@ makeOdinModel <- function(tree,basename='N1'){
   tmp <- tmp[!ditch]
   pmz <- unique(c(pmz,tmp))
 
+  ## keep the tree path/names
+  DFU <- merge(DFU,hsh[,.(oname,from)],by='oname',all.x=TRUE)
 
   ## make odin equations
   EQNS <- c(DFU$inits,DFU$dyx)
   EQNS <- c(paste0(pmz,' <- user()'),EQNS) #add in parameters
 
   ## return value
-  list(odata=DFU,pmz=pmz,EQNS=EQNS)
+  list(odata=(DFU),pmz=pmz,EQNS=EQNS)
 }
