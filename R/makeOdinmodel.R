@@ -4,14 +4,16 @@
 ##' @param rootinflow if adding a flow in from existing model
 ##' @param dimensions the dimensions if an array model
 ##' @param times.array should the timescales also be arrays or not?
-##' @return list 
+##' @param quants vector of entry-accruing quantities like cost to accumulate
+##' @return list
 ##' @author Pete Dodd
 ##' @export 
 makeOdinModel <- function(tree,
                           rootname='N1',    #naming convention
                           rootinflow='0',   #specify a root inflow
                           dimensions=c(),   #dimensions of arrays
-                          times.array=FALSE #are times arrays as well?
+                          times.array=FALSE,#are times arrays as well?
+                          quants=c()        #rates to compute
                           ){
   ## add aliased names: should work by side-effect on tree
   tree$Set(oname=rootname)
@@ -41,7 +43,6 @@ makeOdinModel <- function(tree,
     dmz <- paste0('c(',dmz,')')
   }
 
-
   ## grab parameters
   tmp <- showParmz(tree,parmz=c('p','T'))
   pmz <- tmp$vars #TODO this needs correcting no ltfu2.3
@@ -56,6 +57,14 @@ makeOdinModel <- function(tree,
 
   ## extract relevant structure
   DF <- as.data.table(ToDataFrameNetwork(tree$root,'p','T','oname'))
+  if(length(quants)>0){
+    for(qn in quants){
+      tmp <- as.data.table(ToDataFrameNetwork(tree$root,'oname',qn))
+      bname <- c('oname',qn)
+      tmp <- tmp[,..bname]
+      DF <- merge(DF,tmp,by='oname')
+    }
+  }
   tnmz <- unique(DF$T)                  #time names
   tnmz <- tnmz[tnmz!='0']
   ntnmz <- setdiff(pmz,tnmz)            #not time names
@@ -65,7 +74,6 @@ makeOdinModel <- function(tree,
               by='to',all.x=TRUE)
   ## in rate strings
   DF[,inrates:=paste0(oname,fbrkts,'*(',op,')/(',T,fbrktsT,')')]
-
 
   ## make in rates in right place and initial
   DFU <- unique(DF[,.(oname)])
@@ -83,11 +91,12 @@ makeOdinModel <- function(tree,
       DFU[,inrates:=gsub(fs,fr,inrates)]
     }
   }
-
+  
   ## make outrates
   DF[,outrates:=paste0(oname,fbrkts,'/(',T,fbrktsT,')')]
   DFU <- merge(DFU,unique(DF[T!=0,.(oname,outrates)]),by='oname',all.x=TRUE)
   DFU[is.na(outrates),outrates:='0']
+
 
   ## finalize dynamics
   DFU[,dyx:=paste0('deriv(',oname,brkts,') <- ',inrates,' - ',outrates)]
@@ -115,7 +124,7 @@ makeOdinModel <- function(tree,
         dmzbit <- c(dmzbit,tmp)
     }
   }
-
+  
   ## input bit
   imp1 <- paste0(ntnmz,brkts,' <- user()')
   if(times.array){
@@ -125,11 +134,39 @@ makeOdinModel <- function(tree,
   }
   imp <- c(imp1,imp2)
 
+  ## quantities calculator 
+  ## NOTE also needs to be array
+  qntz <- NULL
+  if(length(quants)>0){
+    quantsL <- c('oname',quants)
+    DFU <- merge(DFU,DF[,..quantsL],by='oname')
+    for(qn in quants){
+      qnmz <- unlist(unique(DFU[,..qn]))
+      ditch <- grepl("^[0-9]+$", qnmz, perl = TRUE)
+      qnmz <- qnmz[!ditch]
+      tmp1 <- NULL
+      tmp2 <- paste0('initial(',qn,brkts,') <- 0' )
+      tmp3a <- paste0('deriv(',qn,brkts,') <- ')
+      tmp3b <- unlist(DFU[,..qn])
+      tmp3c <- paste0('* ',DFU[,inrates])
+      tmp3 <- paste0(tmp3a,paste(tmp3b,tmp3c,collapse = '+'))
+      if(L>0){
+        tmp4 <- paste0('dim(',qn,') <- ',dmz )
+      } else {tmp4 <- NULL;}
+      ## declare cost vars 
+      if(length(qnmz)>0){               #NOTE could introduce brackets/dims
+        tmp5 <- paste0(qnmz,'<- user()')
+      } else {tmp5 <- NULL;}
+      tmp <- c(tmp1,tmp2,tmp3,tmp4,tmp5)
+      qntz <- c(qntz,tmp)
+    }
+  }
 
   ## make odin equations
   EQNS <- c(DFU$inits,DFU$dyx)
   EQNS <- c(imp,EQNS) #add in parameters
   EQNS <- c(EQNS,dmzbit)                         #dimension statements
+  EQNS <- c(EQNS,qntz)                         #aux quantities
 
   ## return value
   list(odata=(DFU),pmz=pmz,EQNS=EQNS)
