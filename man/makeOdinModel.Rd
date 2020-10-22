@@ -4,12 +4,27 @@
 \alias{makeOdinModel}
 \title{Making Odin ODEs from tree}
 \usage{
-makeOdinModel(tree, basename = "N1")
+makeOdinModel(
+  tree,
+  rootname = "N1",
+  rootinflow = "0",
+  dimensions = c(),
+  times.array = FALSE,
+  quants = c()
+)
 }
 \arguments{
-\item{tree}{}
+\item{tree}{input tree}
 
-\item{basename}{}
+\item{rootname}{base for naming convention}
+
+\item{rootinflow}{if adding a flow in from existing model}
+
+\item{dimensions}{the dimensions if an array model}
+
+\item{times.array}{should the timescales also be arrays or not?}
+
+\item{quants}{vector of entry-accruing quantities like cost to accumulate}
 }
 \value{
 list

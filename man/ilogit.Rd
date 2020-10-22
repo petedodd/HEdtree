@@ -9,6 +9,9 @@ ilogit(x)
 \arguments{
 \item{x}{}
 }
+\value{
+
+}
 \description{
 Inverse logit function
 }

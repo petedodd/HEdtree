@@ -9,6 +9,9 @@ top(x)
 \arguments{
 \item{x}{}
 }
+\value{
+
+}
 \description{
 Ditch the top of tree on reading
 }

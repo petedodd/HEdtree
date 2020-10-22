@@ -4,8 +4,14 @@
 \alias{parse.parmtable}
 \title{Reading a parameter table and making utility functions}
 \usage{
-parse.parmtable(data, outfile = NULL, dpl = 3, testdir = NULL,
-  qn = 0.75, tgphfmt = "png")
+parse.parmtable(
+  data,
+  outfile = NULL,
+  dpl = 3,
+  testdir = NULL,
+  qn = 0.75,
+  tgphfmt = "png"
+)
 }
 \arguments{
 \item{data}{in data, first col parm name, second definition}

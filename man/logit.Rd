@@ -9,6 +9,9 @@ logit(x)
 \arguments{
 \item{x}{}
 }
+\value{
+
+}
 \description{
 Logit function
 }
