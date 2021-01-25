@@ -112,16 +112,26 @@ ilogit <- function(x)exp(x)/(1+exp(x))
 ##' @param rootnode 
 ##' @param nodetoadd 
 ##' @param nodename 
-##' @param usecase 
+##' @param usecase Match case in nodename? (must be TRUE currently)
+##' @param leavesonly Merge only onto leaves? 
 ##' @return NULL
 ##' @author Pete Dodd
 ##' @export
-MergeByName <- function(rootnode,nodetoadd,nodename,usecase=TRUE){
-  rootnode$Do( function(node)
-    for(K in nodetoadd$children ) node$AddChildNode(Clone(K)),
-    filterFun = function(x)x$name==nodename #TODO usecase
-    )
-  ## by side-effect
+MergeByName <- function (rootnode,
+                         nodetoadd,
+                         nodename,
+                         usecase = TRUE,
+                         leavesonly = FALSE) {
+    if(!leavesonly){
+        rootnode$Do(function(node)
+            for (K in nodetoadd$children) node$AddChildNode(Clone(K)),
+            filterFun = function(x) (x$name == nodename) )
+    } else {
+        rootnode$Do(function(node)
+            for (K in nodetoadd$children) node$AddChildNode(Clone(K)),
+            filterFun = function(x) (x$name == nodename) && x$isLeaf )
+    }
+    ## by side-effect
 }
 
 ##' Ditch the top of tree on reading

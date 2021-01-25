@@ -4,7 +4,7 @@
 \alias{MergeByName}
 \title{Merge a tree onto another by node name}
 \usage{
-MergeByName(rootnode, nodetoadd, nodename, usecase = TRUE)
+MergeByName(rootnode, nodetoadd, nodename, usecase = TRUE, leavesonly = FALSE)
 }
 \arguments{
 \item{rootnode}{}
@@ -13,7 +13,9 @@ MergeByName(rootnode, nodetoadd, nodename, usecase = TRUE)
 
 \item{nodename}{}
 
-\item{usecase}{}
+\item{usecase}{Match case in nodename? (must be TRUE currently)}
+
+\item{leavesonly}{Merge only onto leaves?}
 }
 \description{
 Merge a tree onto another by node name
