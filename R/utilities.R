@@ -153,3 +153,31 @@ top <- function(x) x$children[[1]]
 ##' @export
 savetreeplot <- function(tree,fn)
   DiagrammeR::export_graph(data.tree::ToDiagrammeRGraph(tree),file_name=fn)
+
+
+
+##' Simpler text file to tree
+##'
+##' See also MSorg2tree
+##' 
+##' @title Make a tree from a tsv
+##' @param x filename relative to 'here'
+##' @return A tree
+##' @author Pete Dodd
+##' @import here
+##' @export
+txt2tree <- function(x) top(MSorg2tree(here::here(x)))
+
+##' Write a CSV tree with labels
+##'
+##' @title Write a CSV tree with labels
+##' @param TREE the tree
+##' @param filename file to write to
+##' @param ... label names to include
+##' @author Pete Dodd
+##' @export
+tree2file <- function(TREE,filename,...){
+    tmp <- data.tree::ToDataFrameTree(TREE,...)
+    tmp <- data.table::as.data.table(tmp)
+    data.table::fwrite(tmp,file=filename)
+}

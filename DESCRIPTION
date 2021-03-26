@@ -15,7 +15,8 @@ Imports:
     MASS,
     stringr,
     xml2,
-    DiagrammeR
+    DiagrammeR,
+    here
 Suggests: knitr,
     rmarkdown
 VignetteBuilder: knitr
