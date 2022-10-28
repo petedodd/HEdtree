@@ -53,7 +53,7 @@ org2LoL <- function(fn){
 ##' @author Pete Dodd
 ##' @export
 org2tree <- function(fn){
-  as.Node(org2LoL(fn=fn))
+  data.tree::as.Node(org2LoL(fn=fn))
 }
 
 ##' This function reads an MS word organisation chart (saved as plain text) file and generates a \code{data.tree} tree object. This enables rapid specification of and experimentation with tree logics. Different levels of the hierarchy are specified in the text file by the number of tabs the line begins with.
@@ -75,7 +75,7 @@ MSorg2tree <- function(fn){
   txt <- gsub("^\\*+\\s","",txt)        #strip stars
   txt <- gsub("^\\s+|\\s+$", "", txt)   #strip leading/trailing space
   tmp <- orgAns0(txt,1,lvls)
-  as.Node(tmp)
+  data.tree::as.Node(tmp)
 }
 
 
