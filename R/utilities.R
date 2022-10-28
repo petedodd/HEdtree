@@ -181,3 +181,30 @@ tree2file <- function(TREE,filename,...){
     tmp <- data.table::as.data.table(tmp)
     data.table::fwrite(tmp,file=filename)
 }
+
+
+##' Append a number of results to data
+##'
+##' @title Run results
+##' @param D the PSA data
+##' @param L a list of functions
+##' @param nmz an optional vector specifying a subset of the functions in \code{F} to run
+##' @param verbose print what's happening (default=\code{TRUE})
+##' @author Pete Dodd
+##' @export
+appendResults <- function(D,L,nmz=NULL,verbose=TRUE){
+  ## if not using nmz to specify
+  if(is.null(nmz)){
+    nmz <- names(L)
+    nmz <- gsub('fun$','',names(L))
+    nmz <- nmz[nmz!='p'] #remove p if there
+  }
+  ## loop
+  for(nm in nmz){
+    if(verbose) cat('Calculating answers for: ',nm,'\n')
+    fnm <- paste0(nm,'fun')
+    D[[nm]] <- L[[fnm]](D)
+  }
+  if(verbose) cat('Done!\n')
+  D
+}
