@@ -10,7 +10,7 @@ logit(x)
 \item{x}{}
 }
 \value{
-
+real
 }
 \description{
 Logit function

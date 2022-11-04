@@ -88,7 +88,7 @@ hipnt <- function(x){
 ##'
 ##' @title Logit function
 ##' @param x 
-##' @return 
+##' @return real
 ##' @author Pete Dodd
 ##' @export
 logit <- function(x)log(x/(1-x))
@@ -97,7 +97,7 @@ logit <- function(x)log(x/(1-x))
 ##'
 ##' @title Inverse logit function
 ##' @param x 
-##' @return 
+##' @return real
 ##' @author Pete Dodd
 ##' @export
 ilogit <- function(x)exp(x)/(1+exp(x))
@@ -138,7 +138,7 @@ MergeByName <- function (rootnode,
 ##'
 ##' @title Ditch the top of tree on reading
 ##' @param x 
-##' @return 
+##' @return a tree
 ##' @author Pete Dodd
 ##' @export
 top <- function(x) x$children[[1]]
@@ -180,6 +180,19 @@ tree2file <- function(TREE,filename,...){
     tmp <- data.tree::ToDataFrameTree(TREE,...)
     tmp <- data.table::as.data.table(tmp)
     data.table::fwrite(tmp,file=filename)
+}
+
+
+##' This function will set (add or overwrite) tree label values based on a data.frame whose columns are the labels to be added. The rows of the data.frame should correspond to the way the tree is structured. This can be used in conjunction with \code{tree2file} by adding columns to CSV output, reading them in to be used as data input to this function.
+##'
+##' @title Add/edit tree labels
+##' @param tree a \code{data.tree} tree object
+##' @param data a \code{data.frame} whose columns are the labels to be added
+##' @return This operates by side effect
+##' @author Pete Dodd
+##' @export
+LabelFromData <- function(tree,data){
+  do.call(Set,c(nodes=list(Traverse(tree)),data))
 }
 
 

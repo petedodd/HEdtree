@@ -10,7 +10,7 @@ top(x)
 \item{x}{}
 }
 \value{
-
+a tree
 }
 \description{
 Ditch the top of tree on reading

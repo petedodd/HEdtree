@@ -10,7 +10,7 @@ ilogit(x)
 \item{x}{}
 }
 \value{
-
+real
 }
 \description{
 Inverse logit function
