@@ -64,16 +64,19 @@ parse.parmtable <- function(data,       #in data, first col parm name, second de
                      LN = function(n)rlnorm(n,pz[1],pz[2]),
                      N = function(n)rnorm(n,pz[1],pz[2]),
                      B = function(n)rbeta(n,pz[1],pz[2]),
+                     G = function(n)rgamma(n,shape=pz[1],scale=pz[2]),
                      E = function(n)rexp(n,pz))
         ne$d <- switch(dss[i],
                      LN = function(x)dlnorm(x,pz[1],pz[2]),
                      N = function(x)dnorm(x,pz[1],pz[2]),
                      B = function(x)dbeta(x,pz[1],pz[2]),
+                     G = function(n)dgamma(n,shape=pz[1],scale=pz[2]),
                      E = function(x)dexp(x,pz))
         ne$q <- switch(dss[i],
                      LN = function(x)qlnorm(x,pz[1],pz[2]),
                      N = function(x)qnorm(x,pz[1],pz[2]),
                      B = function(x)qbeta(x,pz[1],pz[2]),
+                     G = function(n)qgamma(n,shape=pz[1],scale=pz[2]),
                      E = function(x)qexp(x,pz))
         environment(ne$r) <- ne
         environment(ne$d) <- ne
@@ -144,6 +147,7 @@ parse.parmtable <- function(data,       #in data, first col parm name, second de
       }
     }
     if(!is.null(testdir)){
+      if(!dir.exists(testdir)) dir.create(testdir)
       if(is.null(outfile)) outfile <- paste0(testdir,'/out_parmtable.csv')
       otbl <- list()
       ## plots
@@ -158,6 +162,8 @@ parse.parmtable <- function(data,       #in data, first col parm name, second de
             curve(rez[[i]]$d(x),from=(rez[[i]]$pz[1] - 3*rez[[i]]$pz[2]),to=(rez[[i]]$pz[1] + 3*rez[[i]]$pz[2]),n=200)
           if(rez[[i]]$name=='B')
             curve(rez[[i]]$d(x),from=0,to=1,n=200)
+          if(rez[[i]]$name=='G')
+            curve(rez[[i]]$d(x),from=0,to=prod(rez[[i]]$pz)*3,n=200)
           if(rez[[i]]$name=='E')
             curve(rez[[i]]$d(x),from=0,to=5/rez[[i]]$pz,n=200)
           if(rez[[i]]$name=='MVN')
