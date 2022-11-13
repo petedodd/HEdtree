@@ -2,7 +2,7 @@
 % Please edit documentation in R/utilities.R
 \name{midpnt}
 \alias{midpnt}
-\title{Get midpoint from CIs}
+\title{Utility function for extracting midpoint from bracketed uncertainty ranges}
 \usage{
 midpnt(x)
 }
@@ -13,9 +13,6 @@ midpnt(x)
 numeric
 }
 \description{
-Utility function for extracting midpoint from bracketed uncertainty ranges
-}
-\details{
 Expects something like M (Mlo,Mhi) or M (Mlo - Mhi)
 }
 \author{

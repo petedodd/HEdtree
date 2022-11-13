@@ -1,7 +1,11 @@
-##' This is a simplified plotting utility that allows visual checking of decision tree models. By default, the node names, costs, HRQoLs are displayed as well as the edge probabilities. The node attributes to display can be specified in `varz`. The boolean `edgelabel` variable allows turning the edge labels off.
+##' A plotter for decision tree models
+##' 
+##' This is a simplified plotting utility that allows visual checking of decision
+##' tree models. By default, the node names, costs, HRQoLs are displayed as well
+##' as the edge probabilities. The node attributes to display can be specified in
+##' `varz`. The boolean `edgelabel` variable allows turning the edge labels off.
 ##'
-##' @title A plotter for decition tree models
-##' @param node 
+##' @template args-node
 ##' @param varz 
 ##' @param edgelabel 
 ##' @return \code{DiagrammeR} object

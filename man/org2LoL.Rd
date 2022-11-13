@@ -13,7 +13,9 @@ org2LoL(fn)
 A \code{list} of \code{list}s
 }
 \description{
-This function reads and Emacs org-mode file and generates a list-of-lists. This is used primarily as an intermediate: \code{org2tree} returns a \code{data.tree} directly.
+Reads and Emacs org-mode file and generates a list-of-lists.
+This is used primarily as an intermediate: \code{org2tree}
+returns a \code{data.tree} directly.
 }
 \author{
 Pete Dodd

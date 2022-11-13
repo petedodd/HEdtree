@@ -15,7 +15,11 @@ LabelFromData(tree, data)
 This operates by side effect
 }
 \description{
-This function will set (add or overwrite) tree label values based on a data.frame whose columns are the labels to be added. The rows of the data.frame should correspond to the way the tree is structured. This can be used in conjunction with \code{tree2file} by adding columns to CSV output, reading them in to be used as data input to this function.
+This function will set (add or overwrite) tree label values based on
+a data.frame whose columns are the labels to be added.
+The rows of the data.frame should correspond to the way the tree is structured.
+This can be used in conjunction with \code{tree2file} by adding columns to
+CSV output, reading them in to be used as data input to this function.
 }
 \author{
 Pete Dodd

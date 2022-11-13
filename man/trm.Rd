@@ -2,7 +2,7 @@
 % Please edit documentation in R/utilities.R
 \name{trm}
 \alias{trm}
-\title{Trim whitespace}
+\title{Utility function to trim whitespace}
 \usage{
 trm(x)
 }

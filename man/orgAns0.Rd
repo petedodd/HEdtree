@@ -17,7 +17,8 @@ orgAns0(inp, lvl, LVLS)
 A \code{list} of \code{list}s
 }
 \description{
-This does the work underlying \code{org2LoL} and \code{org2tree}. The function recursively evaluates to parse Emacs org-mode files.
+This does the work underlying \code{org2LoL} and \code{org2tree}.
+The function recursively evaluates to parse Emacs org-mode files.
 }
 \author{
 Pete Dodd

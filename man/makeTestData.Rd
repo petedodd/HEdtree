@@ -7,13 +7,14 @@
 makeTestData(ncheck, vnames)
 }
 \arguments{
-\item{node}{}
+\item{node}{a \code{data.tree} object that must contain a probability field \code{p}}
 }
 \value{
 \code{data.frame} of dummy PSA for testing tree functions
 }
 \description{
-This function makes a dummy PSA dataset based on a set of parameters for function testing
+This function makes a dummy PSA dataset based on a set of
+parameters for function testing
 }
 \author{
 Pete Dodd

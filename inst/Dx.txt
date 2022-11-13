@@ -1,0 +1,5 @@
+Screen test
+	Screen positive
+		Confirmatory test positive
+		Negative
+	Negative

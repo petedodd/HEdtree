@@ -1,6 +1,7 @@
+##' Get parameters for a log-normal distribution
+##' 
 ##' Parameters for a lognormal distribution: mu & sdlog from median/mean and variance
 ##'
-##' @title Get parameters for a log-normal distribution
 ##' @param mid the midpoint of the distribution (median/mean depending on \code{med})
 ##' @param var the variance of the distribution
 ##' @param med logical to assume \code{mid} is median (default) or otherwise mean.
@@ -20,9 +21,10 @@ getLNparms <- function(mid,var,med=TRUE){
   ans
 }
 
+##' Get parameters for a beta distribution
+##' 
 ##' Parameters for a beta distribution: a & b from 
 ##'
-##' @title Get parameters for a beta distribution
 ##' @param E the mean
 ##' @param V the variance 
 ##' @return \code{list} containing a & b
@@ -38,7 +40,6 @@ getAB <- function(E,V){
 
 ##' Utility function to trim whitespace
 ##'
-##' @title Trim whitespace
 ##' @param x 
 ##' @return string 
 ##' @author Pete Dodd
@@ -48,7 +49,6 @@ trm <- function(x)gsub(" ","",x)
 ##' Utility function for extracting midpoint from bracketed uncertainty ranges
 ##'
 ##' Expects something like M (Mlo,Mhi) or M (Mlo - Mhi) 
-##' @title Get midpoint from CIs
 ##' @param x 
 ##' @return numeric
 ##' @author Pete Dodd
@@ -61,7 +61,6 @@ midpnt <- function(x){
 ##' Utility function for extracting low point from bracketed uncertainty ranges
 ##'
 ##' Expects something like M (Mlo,Mhi) or M (Mlo - Mhi) 
-##' @title Get low point from CIs
 ##' @param x 
 ##' @return numeric 
 ##' @author Pete Dodd
@@ -74,7 +73,6 @@ lopnt <- function(x){
 ##' Utility function for extracting high point from bracketed uncertainty ranges
 ##'
 ##' Expects something like M (Mlo,Mhi) or M (Mlo - Mhi) 
-##' @title Get high point from CIs
 ##' @param x 
 ##' @return numeric
 ##' @author Pete Dodd
@@ -86,7 +84,6 @@ hipnt <- function(x){
 
 ##' Logit function
 ##'
-##' @title Logit function
 ##' @param x 
 ##' @return real
 ##' @author Pete Dodd
@@ -95,7 +92,6 @@ logit <- function(x)log(x/(1-x))
 
 ##' Inverse logit function
 ##'
-##' @title Inverse logit function
 ##' @param x 
 ##' @return real
 ##' @author Pete Dodd
@@ -108,7 +104,6 @@ ilogit <- function(x)exp(x)/(1+exp(x))
 
 ##' Merge a tree onto another by node name
 ##'
-##' @title Merge a tree onto another by node name
 ##' @param rootnode 
 ##' @param nodetoadd 
 ##' @param nodename 
@@ -136,7 +131,6 @@ MergeByName <- function (rootnode,
 
 ##' Ditch the top of tree on reading
 ##'
-##' @title Ditch the top of tree on reading
 ##' @param x 
 ##' @return a tree
 ##' @author Pete Dodd
@@ -145,7 +139,6 @@ top <- function(x) x$children[[1]]
 
 ##' Ditch the top of tree on reading
 ##'
-##' @title Ditch the top of tree on reading
 ##' @param tree tree to plot
 ##' @param fn file name
 ##' @return NULL
@@ -160,7 +153,6 @@ savetreeplot <- function(tree,fn)
 ##'
 ##' See also MSorg2tree
 ##' 
-##' @title Make a tree from a tsv
 ##' @param x filename relative to 'here'
 ##' @return A tree
 ##' @author Pete Dodd
@@ -170,7 +162,6 @@ txt2tree <- function(x) top(MSorg2tree(here::here(x)))
 
 ##' Write a CSV tree with labels
 ##'
-##' @title Write a CSV tree with labels
 ##' @param TREE the tree
 ##' @param filename file to write to
 ##' @param ... label names to include
@@ -183,9 +174,14 @@ tree2file <- function(TREE,filename,...){
 }
 
 
-##' This function will set (add or overwrite) tree label values based on a data.frame whose columns are the labels to be added. The rows of the data.frame should correspond to the way the tree is structured. This can be used in conjunction with \code{tree2file} by adding columns to CSV output, reading them in to be used as data input to this function.
+##' Add/edit tree labels
+##' 
+##' This function will set (add or overwrite) tree label values based on
+##' a data.frame whose columns are the labels to be added.
+##' The rows of the data.frame should correspond to the way the tree is structured.
+##' This can be used in conjunction with \code{tree2file} by adding columns to
+##' CSV output, reading them in to be used as data input to this function.
 ##'
-##' @title Add/edit tree labels
 ##' @param tree a \code{data.tree} tree object
 ##' @param data a \code{data.frame} whose columns are the labels to be added
 ##' @return This operates by side effect
@@ -198,7 +194,6 @@ LabelFromData <- function(tree,data){
 
 ##' Append a number of results to data
 ##'
-##' @title Run results
 ##' @param D the PSA data
 ##' @param L a list of functions
 ##' @param nmz an optional vector specifying a subset of the functions in \code{F} to run

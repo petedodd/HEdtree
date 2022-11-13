@@ -2,7 +2,7 @@
 % Please edit documentation in R/utilities.R
 \name{txt2tree}
 \alias{txt2tree}
-\title{Make a tree from a tsv}
+\title{Simpler text file to tree}
 \usage{
 txt2tree(x)
 }
@@ -13,9 +13,6 @@ txt2tree(x)
 A tree
 }
 \description{
-Simpler text file to tree
-}
-\details{
 See also MSorg2tree
 }
 \author{

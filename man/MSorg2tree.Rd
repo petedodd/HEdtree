@@ -13,7 +13,11 @@ MSorg2tree(fn)
 A \code{data.tree} tree object
 }
 \description{
-This function reads an MS word organisation chart (saved as plain text) file and generates a \code{data.tree} tree object. This enables rapid specification of and experimentation with tree logics. Different levels of the hierarchy are specified in the text file by the number of tabs the line begins with.
+This function reads an MS word organisation chart (saved as plain text)
+file and generates a \code{data.tree} tree object.
+This enables rapid specification of and experimentation with tree logics.
+Different levels of the hierarchy are specified in the text file by the
+number of tabs the line begins with.
 }
 \author{
 Pete Dodd

@@ -2,7 +2,7 @@
 % Please edit documentation in R/utilities.R
 \name{lopnt}
 \alias{lopnt}
-\title{Get low point from CIs}
+\title{Utility function for extracting low point from bracketed uncertainty ranges}
 \usage{
 lopnt(x)
 }
@@ -13,9 +13,6 @@ lopnt(x)
 numeric
 }
 \description{
-Utility function for extracting low point from bracketed uncertainty ranges
-}
-\details{
 Expects something like M (Mlo,Mhi) or M (Mlo - Mhi)
 }
 \author{

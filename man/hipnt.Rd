@@ -2,7 +2,7 @@
 % Please edit documentation in R/utilities.R
 \name{hipnt}
 \alias{hipnt}
-\title{Get high point from CIs}
+\title{Utility function for extracting high point from bracketed uncertainty ranges}
 \usage{
 hipnt(x)
 }
@@ -13,9 +13,6 @@ hipnt(x)
 numeric
 }
 \description{
-Utility function for extracting high point from bracketed uncertainty ranges
-}
-\details{
 Expects something like M (Mlo,Mhi) or M (Mlo - Mhi)
 }
 \author{
