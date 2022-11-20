@@ -2,7 +2,7 @@
 % Please edit documentation in R/getAQ.R
 \name{getAQ}
 \alias{getAQ}
-\title{Get an arbirary string for tree calculations}
+\title{Get an arbitrary string for tree calculations}
 \usage{
 getAQ(node, qnt = "cost")
 }
@@ -15,7 +15,12 @@ getAQ(node, qnt = "cost")
 \code{string} to be evaluated in calculations
 }
 \description{
-This can be used to generate a string corresponding to calculating the mean tree output for a given quantity over the tree. The tree is specified as the input \code{node}, which must be a \code{data.tree} object containing probability variables as \code{p}. The quantity to be averaged over must be a node attribute \code{qnt}, which defaults as \code{cost}.
+This can be used to generate a string corresponding to calculating
+the mean tree output for a given quantity over the tree.
+The tree is specified as the input \code{node}, which must be a
+\code{data.tree} object containing probability variables as \code{p}.
+The quantity to be averaged over must be a node attribute \code{qnt},
+which defaults as \code{cost}.
 }
 \author{
 Pete Dodd

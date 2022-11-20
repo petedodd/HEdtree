@@ -7,13 +7,13 @@
 showAllParmz(TREE)
 }
 \arguments{
-\item{node}{}
+\item{node}{a \code{data.tree} object that must contain a probability field \code{p}}
 }
 \value{
 \code{vector} of  unique basic parameters
 }
 \description{
-This function just fetches the parameters used in the model for use in testing.
+Fetches the parameters used in the model for use in testing.
 }
 \author{
 Pete Dodd

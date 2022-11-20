@@ -1,0 +1,141 @@
+---
+title: "Basic Example"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{example}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r tree-diagram, echo=FALSE, fig.cap="", out.width = '80%'}
+knitr::include_graphics("figures/tree_diagram.png")
+```
+
+We can load in a tree structure as a text file.
+
+```{r setup, warning=FALSE, message=FALSE}
+library(HEdtree)
+
+Dx <- txt2tree('inst/Dx.txt')
+
+Dx
+```
+
+Treatment tree version.
+
+```{r}
+library(data.tree)
+
+
+# create new tree objects
+Tx <- Node$new('treated')
+
+Tx$AddChild('Dies')
+Tx$AddChild('Survives')
+Tx$Dies$p <- 'cfr.tx'
+Tx$Survives$p <- '1-cfr.tx'
+
+print(Tx, "p")
+```
+
+No treatment tree version.
+
+```{r}
+noTx <- Node$new('untreated')
+noTx$AddChild('Dies')
+noTx$AddChild('Survives')
+noTx$Dies$p <- 'cfr.notx'
+noTx$Survives$p <- '1-cfr.notx'
+
+print(noTx, "p")
+```
+
+Combine the base tree and the subtrees.
+
+```{r}
+## merge on outcomes
+MergeByName(rootnode = Dx, nodetoadd = Tx, nodename = 'Confirmatory test positive')
+MergeByName(rootnode = Dx, nodetoadd = noTx, nodename = 'Negative')
+
+print(Dx,'p')
+```
+
+```{r}
+## example of setting by grep:
+## check
+Dx$Set(check=1)
+Dx$Set(check=0, filterFun=function(x) length(x$children)>0)
+
+## deaths
+Dx$Set(deaths=0)
+Dx$Set(deaths=1, filterFun=function(x) (x$name=='Dies'))
+
+print(Dx,'deaths','check')
+```
+
+Example of using CSV I/O to set labels.
+
+```{r}
+# tree2file(Dx,
+#           filename = here::here('inst/Dx0.csv'),
+#           'p','check','deaths','treatments')
+
+## read in and set labels
+CD <- read.csv(here::here('inst/Dx1.csv')) #the edited version
+
+## want to do automatically
+## LabelFromData <- function(tree,data){
+##   ## TODO
+## }
+
+Dx$Set(p=CD$p)
+Dx$Set(treatments=CD$treatments)
+
+print(Dx,'p','treatments','deaths')
+```
+
+```{r}
+## make tree functions
+qnts <- c('p','check','deaths','treatments')
+tree_fns <- makeTfuns(Dx, qnt=qnts)
+str(tree_fns)
+```
+
+$$
+c_0 + p_{screen} (c_{screen} + p_{test} (c_{test} + CFR_{Tx} c_{CFR} + (1 - CFR_{Tx})c_{nCFR})) \cdots
+$$
+
+```{r}
+## quantity example
+getAQ(Dx, 'deaths')
+
+## get the variables
+(pmz <- showAllParmz(Dx))
+
+##TODO: wheres this function?
+## make test data
+# test <- makeTestData(100,pmz)
+# head(test)
+# 
+# tree_fns$checkfun(test)
+
+dat <-
+ data.frame(
+   p.screen = 1,
+   p.test = 1,
+   cfr.tx = 1,
+   cfr.notx = 1)
+
+tree_fns[[1]](dat)
+
+## run all
+test <- appendResults(dat, tree_fns)
+head(test)
+```

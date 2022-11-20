@@ -1,7 +1,10 @@
-##' This function just fetches the parameters used in the model (and prints them). It separates those which are basic and require separate definition from those that are specified via calculations.
+##' List parameters in model
+##' 
+##' This function just fetches the parameters used in the model (and prints them).
+##' It separates those which are basic and require separate definition from
+##' those that are specified via calculations.
 ##'
-##' @title List parameters in model
-##' @param node 
+##' @template args-node
 ##' @param parmz 
 ##' @return \code{list} of length 2: unique basic parameters & unique calculation-defined parameters
 ##' @author Pete Dodd
@@ -23,10 +26,11 @@ showParmz <- function(node,parmz=c('cost','p','qol')){
 }
 
 
-##' This function just fetches the parameters used in the model for use in testing.
+##' List parameters in model
+##' 
+##' Fetches the parameters used in the model for use in testing.
 ##'
-##' @title List parameters in model
-##' @param node 
+##' @template args-node
 ##' @return \code{vector} of  unique basic parameters
 ##' @author Pete Dodd
 ##' @export
@@ -44,10 +48,12 @@ showAllParmz <- function(TREE){
   unique(cx)
 }
 
-##' This function makes a dummy PSA dataset based on a set of parameters for function testing
+##' List parameters in model
+##' 
+##' This function makes a dummy PSA dataset based on a set of
+##' parameters for function testing
 ##'
-##' @title List parameters in model
-##' @param node 
+##' @template args-node
 ##' @return \code{data.frame} of dummy PSA for testing tree functions
 ##' @author Pete Dodd
 ##' @export

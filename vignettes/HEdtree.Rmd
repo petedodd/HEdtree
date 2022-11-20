@@ -22,7 +22,7 @@ library(data.tree)              #needed?
 
 # Making a tree
 
-Then we can use the syntax of `data.tree` to define our decision tree
+Then we can use the syntax of `data.tree` to define our decision tree by first creating an empty tree object and then adding to it child nodes using the `AddChild()` function.
 
 ```{r}
 myt <- Node$new('mytree')
@@ -34,17 +34,17 @@ mb1 <- mb$AddChild('Option B1')
 mb2 <- mb$AddChild('Option B2')
 ```
 
-We can also add incoming probabilities, as well as costs and health-related quality of life parameters for these nodes
+We can also add incoming probabilities (`p`), as well as costs (`cost`) and health-related quality of life (`qol`) parameters for these nodes
 
 ```{r}
 ## p/q/c
 myt$p <- 'myp'; myt$qol <- 'myq'; myt$cost <- 'myc'
-ma$p <- 'ap'; ma$qol <- 'aq'; ma$cost <- 'ac';
-mb$p <- 'bp'; mb$qol <- 'bq'; mb$cost <- 'bc';
-ma1$p <- 'a1p'; ma1$qol <- 'a1q'; ma1$cost <- 'a1c';
-mb1$p <- 'b1p'; mb1$qol <- 'b1q'; mb1$cost <- 'b1c';
-ma2$p <- 'a2p'; ma2$qol <- 'a2q'; ma2$cost <- 'a2c';
-mb2$p <- 'b2p'; mb2$qol <- 'b2q'; mb2$cost <- 'b2c';
+ma$p <- 'ap'; ma$qol <- 'aq'; ma$cost <- 'ac'
+mb$p <- 'bp'; mb$qol <- 'bq'; mb$cost <- 'bc'
+ma1$p <- 'a1p'; ma1$qol <- 'a1q'; ma1$cost <- 'a1c'
+mb1$p <- 'b1p'; mb1$qol <- 'b1q'; mb1$cost <- 'b1c'
+ma2$p <- 'a2p'; ma2$qol <- 'a2q'; ma2$cost <- 'a2c'
+mb2$p <- 'b2p'; mb2$qol <- 'b2q'; mb2$cost <- 'b2c'
 ```
 
 We can check we're on the right lines using ASCI-style visualization:
@@ -52,6 +52,7 @@ We can check we're on the right lines using ASCI-style visualization:
 ```{r}
 print(myt,'p','cost','qol')
 ```
+
 If other variables have been attached to nodes, they can be visualized in a similar fashion.
 
 
@@ -70,7 +71,7 @@ We can look at an exhaustive list of parameters defined using
 (varnmz <- showParmz(myt)$vars)
 ```
 
-The function `showParmz` also collates variables which are defined in terms of other defined parameters (using arithmetic operations e.g.). It is permissable to define a cost using such an operation, e.g. `test$qol <- '(b1q-.1)/2'` 
+The function `showParmz` also collates variables which are defined in terms of other defined parameters (using arithmetic operations e.g.). It is permissible to define a cost using such an operation, e.g. `r `test$qol <- '(b1q-.1)/2'` 
 
 Functions that evaluate these strings on data.frames are built using
 
@@ -82,14 +83,13 @@ We can check that these are working by building a dummy PSA data.frame
 
 ```{r}
 ## dummy PSA data frame
-psadf <- matrix(runif(10*length(varnmz)),ncol=length(varnmz))
+psadf <- matrix(runif(10*length(varnmz)), ncol=length(varnmz))
 colnames(psadf) <- varnmz
 psadf <- as.data.frame(psadf)
 
 ## evaluate
 H$costfun(psadf)                        #return answers
 H$qolfun(psadf)
-
 ```
 
 ## Use of functions
@@ -99,9 +99,9 @@ It is also permitted to call on functions that are defined in higher-level envir
 ```{r}
 ma1$p <- 'accpfun(age)'
 accpfun <- function(x) exp(x) / (1+exp(x))
-psadf$age <- 1:nrow(psadf)      #add an age in 
-H <- makeTfuns(myt)                   #remake the functions
-H$costfun(psadf)                        #test 
+psadf$age <- 1:nrow(psadf)          #add an age in 
+H <- makeTfuns(myt)                 #remake the functions
+H$costfun(psadf)                    #test 
 ```
 Note: this example also illustrates how one can include individual characteristics from a population and use them to influence their outcomes.
 
@@ -117,7 +117,7 @@ plotter(myt)
 If fewer/more labels are needed, this can be achieved using
 
 ```{r}
-plotter(myt,varz=c('name'),edgelabel=FALSE)
+plotter(myt, varz=c('name'), edgelabel=FALSE)
 ```
 
 If further formatting or I/O is required, `ToDiagrammeRGraph` exports the graph as a `DiagrammeR` object (see package of the same name). Or just assign the return value to some variable, e.g. `test`, whereupon `test$x$digram` will contain the associated DOT code.

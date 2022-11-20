@@ -1,7 +1,9 @@
-##' These are two labelling functions to label edges and nodes used by \code{plotter}.
+##' Labelling utilities
+##' 
+##' These are two labelling functions to label edges
+##' and nodes used by \code{plotter}.
 ##'
-##' @title Labelling utilities
-##' @param node 
+##' @template args-node
 ##' @param varz 
 ##' @return \code{string} to be used as label
 ##' @author Pete Dodd

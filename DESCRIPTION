@@ -2,22 +2,28 @@ Package: HEdtree
 Title: A Package For Decision Tree Modelling
 Version: 0.0.0.9000
 Authors@R: person("Pete", "Dodd", email="p.j.dodd@sheffield.ac.uk", role = c("aut", "cre"))
-Description: This package uses the `data.tree` package for simply specifying decision tree models in health economics, and includes utilities for visualisation and applying model to arbitrary PSA data.
+Description: This package uses the `data.tree` package for simply specifying decision tree models
+   in health economics, and includes utilities for visualisation and applying model to arbitrary PSA data.
 Depends: R (>= 3.0.1)
-License: This work is licensed under the Creative Commons Attribution 4.0 International License. To view a copy of this license, visit http://creativecommons.org/licenses/by/4.0/.
+License: This work is licensed under the Creative Commons Attribution 4.0 International License.
+   To view a copy of this license, visit http://creativecommons.org/licenses/by/4.0/.
 LazyData: true
 Imports: 
     data.tree,
     data.table,
-    ggplot2,
-    scales,
-    reshape2,
-    MASS,
-    stringr,
-    xml2,
     DiagrammeR,
-    here
-Suggests: knitr,
-    rmarkdown
+    ggplot2,
+    here,
+    MASS,
+    reshape2,
+    scales,
+    stringr,
+    xml2
+Suggests:
+    knitr,
+    rmarkdown,
+    testthat (>= 3.0.0)
 VignetteBuilder: knitr
 RoxygenNote: 7.2.1
+Config/testthat/edition: 3
+Encoding: UTF-8

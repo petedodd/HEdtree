@@ -2,12 +2,12 @@
 % Please edit documentation in R/plotter.R
 \name{plotter}
 \alias{plotter}
-\title{A plotter for decition tree models}
+\title{A plotter for decision tree models}
 \usage{
 plotter(node, varz = c("name", "cost", "qol"), edgelabel = TRUE)
 }
 \arguments{
-\item{node}{}
+\item{node}{a \code{data.tree} object that must contain a probability field \code{p}}
 
 \item{varz}{}
 
@@ -17,7 +17,10 @@ plotter(node, varz = c("name", "cost", "qol"), edgelabel = TRUE)
 \code{DiagrammeR} object
 }
 \description{
-This is a simplified plotting utility that allows visual checking of decision tree models. By default, the node names, costs, HRQoLs are displayed as well as the edge probabilities. The node attributes to display can be specified in `varz`. The boolean `edgelabel` variable allows turning the edge labels off.
+This is a simplified plotting utility that allows visual checking of decision
+tree models. By default, the node names, costs, HRQoLs are displayed as well
+as the edge probabilities. The node attributes to display can be specified in
+`varz`. The boolean `edgelabel` variable allows turning the edge labels off.
 }
 \author{
 Pete Dodd

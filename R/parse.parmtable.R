@@ -1,19 +1,22 @@
-##' This function is designed to simplify the workflow by allowing specification of parameters/priors in an external CSV file following certain conventions.
+##' Reading a parameter table and making utility functions
+##' 
+##' This function is designed to simplify the workflow by allowing specification
+##' of parameters/priors in an external CSV file following certain conventions.
 ##'
 ##' Work in progress: need to add other distributions; testing functionality etc
+##' 
 ##' @details
 ##' The following distributions are handled:
 ##'
 ##' \itemize{
-##'  \item{"Normal"}{defined as \code{N(mean,sd)}}
-##'  \item{"Log-Normal"}{defined as \code{LN(mu,sdlog)}}
-##'  \item{"Beta"}{defined as \code{B(a,b)}}
-##'  \item{"Exponential"}{defined as \code{E(rate)}}
+##'  \item{"Normal"}{ defined as \code{N(mean,sd)}}
+##'  \item{"Log-Normal"}{ defined as \code{LN(mu,sdlog)}}
+##'  \item{"Beta"}{ defined as \code{B(a,b)}}
+##'  \item{"Exponential"}{ defined as \code{E(rate)}}
 ##' }
 ##'
 ##' TODO document & expand inputs below,
 ##'
-##' @title Reading a parameter table and making utility functions
 ##' @param data in data, first col parm name, second definition
 ##' @param outfile optional name for test table out
 ##' @param dpl number of dps for reporting (TODO)

@@ -7,7 +7,7 @@
 GetNodeLabel(node, varz = c("name", "cost", "qol"))
 }
 \arguments{
-\item{node}{}
+\item{node}{a \code{data.tree} object that must contain a probability field \code{p}}
 
 \item{varz}{}
 }
@@ -15,7 +15,8 @@ GetNodeLabel(node, varz = c("name", "cost", "qol"))
 \code{string} to be used as label
 }
 \description{
-These are two labelling functions to label edges and nodes used by \code{plotter}.
+These are two labelling functions to label edges
+and nodes used by \code{plotter}.
 }
 \author{
 Pete Dodd

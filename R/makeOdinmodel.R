@@ -1,4 +1,5 @@
-##' @title Making Odin ODEs from tree
+##' Making Odin ODEs from tree
+##' 
 ##' @param tree input tree
 ##' @param rootname base for naming convention
 ##' @param rootinflow if adding a flow in from existing model
@@ -168,6 +169,5 @@ makeOdinModel <- function(tree,
   EQNS <- c(EQNS,dmzbit)                         #dimension statements
   EQNS <- c(EQNS,qntz)                         #aux quantities
 
-  ## return value
   list(odata=(DFU),pmz=pmz,EQNS=EQNS)
 }

@@ -1,0 +1,12 @@
+levelName,p,check,deaths,treatments
+Screen test                       ,1,0,0,0
+ ¦--Screen positive               ,p.screen,0,0,0
+ ¦   ¦--Confirmatory test positive,p.test,0,0,1
+ ¦   ¦   ¦--Dies                  ,cfr.tx,1,1,0
+ ¦   ¦   °--Survives              ,1-cfr.tx,1,0,0
+ ¦   °--Negative                  ,1-p.test,0,0,0
+ ¦       ¦--Dies                  ,cfr.notx,1,1,0
+ ¦       °--Survives              ,1-cfr.notx,1,0,0
+ °--Negative                      ,1-p.screen,0,0,0
+     ¦--Dies                      ,cfr.notx,1,1,0
+     °--Survives                  ,1-cfr.notx,1,0,0

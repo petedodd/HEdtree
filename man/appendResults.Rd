@@ -2,7 +2,7 @@
 % Please edit documentation in R/utilities.R
 \name{appendResults}
 \alias{appendResults}
-\title{Run results}
+\title{Append a number of results to data}
 \usage{
 appendResults(D, L, nmz = NULL, verbose = TRUE)
 }

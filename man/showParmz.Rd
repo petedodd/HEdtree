@@ -7,7 +7,7 @@
 showParmz(node, parmz = c("cost", "p", "qol"))
 }
 \arguments{
-\item{node}{}
+\item{node}{a \code{data.tree} object that must contain a probability field \code{p}}
 
 \item{parmz}{}
 }
@@ -15,7 +15,9 @@ showParmz(node, parmz = c("cost", "p", "qol"))
 \code{list} of length 2: unique basic parameters & unique calculation-defined parameters
 }
 \description{
-This function just fetches the parameters used in the model (and prints them). It separates those which are basic and require separate definition from those that are specified via calculations.
+This function just fetches the parameters used in the model (and prints them).
+It separates those which are basic and require separate definition from
+those that are specified via calculations.
 }
 \author{
 Pete Dodd

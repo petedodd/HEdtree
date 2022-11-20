@@ -11,7 +11,8 @@ makePSA(N, P, dbls = list())
 
 \item{P}{parameter object (eg from parse.parmtable)}
 
-\item{dbls}{list of 2-D name vectors for any parameter pairs generated jointly (same order as in \code{P})}
+\item{dbls}{list of 2-D name vectors for any parameter pairs
+generated jointly (same order as in \code{P})}
 }
 \value{
 \code{data.table}

@@ -17,14 +17,13 @@ simulate(tree, N, P)
 by side-effect on tree as N
 }
 \description{
-Simulation of tree
+This is for simulating numbers from studies.
+The tree can be converted afterwards with something like
 }
 \details{
-This is for simulating numbers from studies. The tree can be converted afterwards with something like
+\code{ToDataFrameTable(RStbtxo, "pathString", "N")}
 
-ToDataFrameTable(RStbtxo, "pathString", "N")
-
-which is part of the data.tree library
+which is part of the data.tree library.
 }
 \author{
 Pete Dodd

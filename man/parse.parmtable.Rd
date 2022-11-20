@@ -30,7 +30,8 @@ parse.parmtable(
 \code{list} of functions for RV computations and associated names
 }
 \description{
-This function is designed to simplify the workflow by allowing specification of parameters/priors in an external CSV file following certain conventions.
+This function is designed to simplify the workflow by allowing specification
+of parameters/priors in an external CSV file following certain conventions.
 }
 \details{
 Work in progress: need to add other distributions; testing functionality etc
