@@ -30,7 +30,7 @@ showParmz <- function(node,parmz=c('cost','p','qol')){
 ##' 
 ##' Fetches the parameters used in the model for use in testing.
 ##'
-##' @template args-node
+##' @param TREE decision tree object
 ##' @return \code{vector} of  unique basic parameters
 ##' @author Pete Dodd
 ##' @export
@@ -53,7 +53,8 @@ showAllParmz <- function(TREE){
 ##' This function makes a dummy PSA dataset based on a set of
 ##' parameters for function testing
 ##'
-##' @template args-node
+##' @param ncheck Number to check
+##' @param vnames Vector of names
 ##' @return \code{data.frame} of dummy PSA for testing tree functions
 ##' @author Pete Dodd
 ##' @export
