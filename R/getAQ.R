@@ -8,7 +8,7 @@
 ##' which defaults as \code{cost}.
 ##' 
 ##' @template args-node
-##' @param qnt 
+##' @param qnt Quantity
 ##' @return \code{string} to be evaluated in calculations
 ##' @author Pete Dodd
 ##' @export
