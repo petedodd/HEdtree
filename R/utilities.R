@@ -25,8 +25,8 @@ getLNparms <- function(mid,var,med=TRUE){
 ##' 
 ##' Parameters for a beta distribution: a & b from 
 ##'
-##' @param E the mean
-##' @param V the variance 
+##' @param E Mean
+##' @param V Variance 
 ##' @return \code{list} containing a & b
 ##' @author Pete Dodd
 ##' @export
@@ -40,16 +40,16 @@ getAB <- function(E,V){
 
 ##' Utility function to trim whitespace
 ##'
-##' @param x 
+##' @param x String
 ##' @return string 
 ##' @author Pete Dodd
 ##' @export
-trm <- function(x)gsub(" ","",x)
+trm <- function(x) gsub(" ","",x)
 
 ##' Utility function for extracting midpoint from bracketed uncertainty ranges
 ##'
 ##' Expects something like M (Mlo,Mhi) or M (Mlo - Mhi) 
-##' @param x 
+##' @param x String
 ##' @return numeric
 ##' @author Pete Dodd
 ##' @export
@@ -61,7 +61,7 @@ midpnt <- function(x){
 ##' Utility function for extracting low point from bracketed uncertainty ranges
 ##'
 ##' Expects something like M (Mlo,Mhi) or M (Mlo - Mhi) 
-##' @param x 
+##' @param x String
 ##' @return numeric 
 ##' @author Pete Dodd
 ##' @export
@@ -73,7 +73,7 @@ lopnt <- function(x){
 ##' Utility function for extracting high point from bracketed uncertainty ranges
 ##'
 ##' Expects something like M (Mlo,Mhi) or M (Mlo - Mhi) 
-##' @param x 
+##' @param x String
 ##' @return numeric
 ##' @author Pete Dodd
 ##' @export
@@ -84,11 +84,11 @@ hipnt <- function(x){
 
 ##' Logit function
 ##'
-##' @param x 
+##' @param x String
 ##' @return real
 ##' @author Pete Dodd
 ##' @export
-logit <- function(x)log(x/(1-x))
+logit <- function(x) log(x/(1-x))
 
 ##' Inverse logit function
 ##'
@@ -104,11 +104,11 @@ ilogit <- function(x)exp(x)/(1+exp(x))
 
 ##' Merge a tree onto another by node name
 ##'
-##' @param rootnode 
-##' @param nodetoadd 
-##' @param nodename 
+##' @param rootnode Root node
+##' @param nodetoadd Node to add
+##' @param nodename Node name
 ##' @param usecase Match case in nodename? (must be TRUE currently)
-##' @param leavesonly Merge only onto leaves? 
+##' @param leavesonly Merge only onto leaves? Logical
 ##' @return NULL
 ##' @author Pete Dodd
 ##' @export
@@ -131,7 +131,7 @@ MergeByName <- function (rootnode,
 
 ##' Ditch the top of tree on reading
 ##'
-##' @param x 
+##' @param x Tree
 ##' @return a tree
 ##' @author Pete Dodd
 ##' @export
@@ -153,7 +153,7 @@ savetreeplot <- function(tree,fn)
 ##'
 ##' See also MSorg2tree
 ##' 
-##' @param x filename relative to 'here'
+##' @param x Filename relative to 'here'
 ##' @return A tree
 ##' @author Pete Dodd
 ##' @import here
@@ -163,11 +163,11 @@ txt2tree <- function(x) top(MSorg2tree(here::here(x)))
 ##' Write a CSV tree with labels
 ##'
 ##' @param TREE the tree
-##' @param filename file to write to
-##' @param ... label names to include
+##' @param Filename file to write to
+##' @param ... Label names to include
 ##' @author Pete Dodd
 ##' @export
-tree2file <- function(TREE,filename,...){
+tree2file <- function(TREE, filename, ...){
     tmp <- data.tree::ToDataFrameTree(TREE,...)
     tmp <- data.table::as.data.table(tmp)
     data.table::fwrite(tmp,file=filename)
@@ -187,7 +187,7 @@ tree2file <- function(TREE,filename,...){
 ##' @return This operates by side effect
 ##' @author Pete Dodd
 ##' @export
-LabelFromData <- function(tree,data){
+LabelFromData <- function(tree, data){
   do.call(Set,c(nodes=list(Traverse(tree)),data))
 }
 
@@ -196,8 +196,8 @@ LabelFromData <- function(tree,data){
 ##'
 ##' @param D the PSA data
 ##' @param L a list of functions
-##' @param nmz an optional vector specifying a subset of the functions in \code{F} to run
-##' @param verbose print what's happening (default=\code{TRUE})
+##' @param nmz Optional vector specifying a subset of the functions in \code{F} to run
+##' @param verbose Print what's happening (default=\code{TRUE})
 ##' @author Pete Dodd
 ##' @export
 appendResults <- function(D,L,nmz=NULL,verbose=TRUE){
