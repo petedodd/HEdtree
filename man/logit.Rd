@@ -7,7 +7,7 @@
 logit(x)
 }
 \arguments{
-\item{x}{}
+\item{x}{String}
 }
 \value{
 real

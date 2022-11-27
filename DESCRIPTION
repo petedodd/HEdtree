@@ -5,8 +5,7 @@ Authors@R: person("Pete", "Dodd", email="p.j.dodd@sheffield.ac.uk", role = c("au
 Description: This package uses the `data.tree` package for simply specifying decision tree models
    in health economics, and includes utilities for visualisation and applying model to arbitrary PSA data.
 Depends: R (>= 3.0.1)
-License: This work is licensed under the Creative Commons Attribution 4.0 International License.
-   To view a copy of this license, visit http://creativecommons.org/licenses/by/4.0/.
+License: CC BY 4.0
 LazyData: true
 Imports: 
     data.tree,
@@ -15,10 +14,7 @@ Imports:
     ggplot2,
     here,
     MASS,
-    reshape2,
-    scales,
     stringr,
-    xml2
 Suggests:
     knitr,
     rmarkdown,

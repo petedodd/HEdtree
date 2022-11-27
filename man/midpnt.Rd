@@ -7,7 +7,7 @@
 midpnt(x)
 }
 \arguments{
-\item{x}{}
+\item{x}{String}
 }
 \value{
 numeric

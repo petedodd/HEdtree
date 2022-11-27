@@ -1,3 +1,9 @@
 tmp/*
 ^.*\.Rproj$
 ^\.Rproj\.user$
+^LICENSE\.md$
+^\.github$
+^scripts$
+^docs$
+^README\.Rmd$
+^LICENSE\.md$

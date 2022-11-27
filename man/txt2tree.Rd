@@ -7,7 +7,7 @@
 txt2tree(x)
 }
 \arguments{
-\item{x}{filename relative to 'here'}
+\item{x}{Filename relative to 'here'}
 }
 \value{
 A tree

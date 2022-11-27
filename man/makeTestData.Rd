@@ -7,7 +7,9 @@
 makeTestData(ncheck, vnames)
 }
 \arguments{
-\item{node}{a \code{data.tree} object that must contain a probability field \code{p}}
+\item{ncheck}{Number to check}
+
+\item{vnames}{Vector of names}
 }
 \value{
 \code{data.frame} of dummy PSA for testing tree functions

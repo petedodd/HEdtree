@@ -6,7 +6,7 @@
 ##' variables are defined at all nodes of the tree.
 ##'
 ##' @template args-node
-##' @param qnt 
+##' @param qnt Quantity
 ##' @return A \code{list} of functions
 ##' @author Pete Dodd
 ##' @export

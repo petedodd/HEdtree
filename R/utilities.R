@@ -92,11 +92,11 @@ logit <- function(x) log(x/(1-x))
 
 ##' Inverse logit function
 ##'
-##' @param x 
+##' @param x Number
 ##' @return real
 ##' @author Pete Dodd
 ##' @export
-ilogit <- function(x)exp(x)/(1+exp(x))
+ilogit <- function(x) exp(x)/(1+exp(x))
 
 
 
@@ -163,7 +163,7 @@ txt2tree <- function(x) top(MSorg2tree(here::here(x)))
 ##' Write a CSV tree with labels
 ##'
 ##' @param TREE the tree
-##' @param Filename file to write to
+##' @param filename file to write to
 ##' @param ... Label names to include
 ##' @author Pete Dodd
 ##' @export

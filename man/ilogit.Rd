@@ -7,7 +7,7 @@
 ilogit(x)
 }
 \arguments{
-\item{x}{}
+\item{x}{Number}
 }
 \value{
 real

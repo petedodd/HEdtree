@@ -4,6 +4,8 @@
 # HEdtree <img src='man/figures/hexbadge.png' style="float:right; height:200px;">
 
 <!-- badges: start -->
+
+[![R-CMD-check](https://github.com/petedodd/HEdtree/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/petedodd/HEdtree/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 The goal of HEdtree is to …
@@ -32,3 +34,7 @@ library(HEdtree)
 #>     simulate
 ## basic example code
 ```
+
+## License
+
+[![License: CC BY 4.0](https://img.shields.io/badge/License-CC_BY_4.0-lightgrey.svg)](https://creativecommons.org/licenses/by/4.0/)

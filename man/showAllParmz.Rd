@@ -7,7 +7,7 @@
 showAllParmz(TREE)
 }
 \arguments{
-\item{node}{a \code{data.tree} object that must contain a probability field \code{p}}
+\item{TREE}{decision tree object}
 }
 \value{
 \code{vector} of  unique basic parameters

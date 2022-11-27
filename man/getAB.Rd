@@ -7,9 +7,9 @@
 getAB(E, V)
 }
 \arguments{
-\item{E}{the mean}
+\item{E}{Mean}
 
-\item{V}{the variance}
+\item{V}{Variance}
 }
 \value{
 \code{list} containing a & b

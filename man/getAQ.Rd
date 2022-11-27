@@ -9,7 +9,7 @@ getAQ(node, qnt = "cost")
 \arguments{
 \item{node}{a \code{data.tree} object that must contain a probability field \code{p}}
 
-\item{qnt}{}
+\item{qnt}{Quantity}
 }
 \value{
 \code{string} to be evaluated in calculations

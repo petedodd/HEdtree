@@ -7,7 +7,7 @@
 top(x)
 }
 \arguments{
-\item{x}{}
+\item{x}{Tree}
 }
 \value{
 a tree
