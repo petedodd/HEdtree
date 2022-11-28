@@ -3,9 +3,9 @@
 ##' This does the work underlying \code{org2LoL} and \code{org2tree}.
 ##' The function recursively evaluates to parse Emacs org-mode files. 
 ##'
-##' @param inp 
-##' @param lvl 
-##' @param LVLS 
+##' @param inp Input
+##' @param lvl Level
+##' @param LVLS Levels
 ##' @return A \code{list} of \code{list}s
 ##' @author Pete Dodd
 ##' @export

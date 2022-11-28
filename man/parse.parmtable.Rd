@@ -40,10 +40,10 @@ Work in progress: need to add other distributions; testing functionality etc
 The following distributions are handled:
 
 \itemize{
- \item{"Normal"}{defined as \code{N(mean,sd)}}
- \item{"Log-Normal"}{defined as \code{LN(mu,sdlog)}}
- \item{"Beta"}{defined as \code{B(a,b)}}
- \item{"Exponential"}{defined as \code{E(rate)}}
+ \item{"Normal"}{ defined as \code{N(mean,sd)}}
+ \item{"Log-Normal"}{ defined as \code{LN(mu,sdlog)}}
+ \item{"Beta"}{ defined as \code{B(a,b)}}
+ \item{"Exponential"}{ defined as \code{E(rate)}}
 }
 
 TODO document & expand inputs below,

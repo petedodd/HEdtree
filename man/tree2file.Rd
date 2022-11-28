@@ -11,7 +11,7 @@ tree2file(TREE, filename, ...)
 
 \item{filename}{file to write to}
 
-\item{...}{label names to include}
+\item{...}{Label names to include}
 }
 \description{
 Write a CSV tree with labels

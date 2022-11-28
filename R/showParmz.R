@@ -5,13 +5,14 @@
 ##' those that are specified via calculations.
 ##'
 ##' @template args-node
-##' @param parmz 
-##' @return \code{list} of length 2: unique basic parameters & unique calculation-defined parameters
+##' @param parmz Parameters
+##' @return \code{list} of length 2: unique basic parameters
+##'  and unique calculation-defined parameters
 ##' @author Pete Dodd
 ##' @export
 showParmz <- function(node,parmz=c('cost','p','qol')){
   varnmz <- c()
-  for(pm in parmz)
+  for (pm in parmz)
     varnmz <- c(varnmz,node$Get(pm))
   varnmz <- varnmz[!is.na(varnmz)]
   calx <- grepl("[*|(|)|+|/|-]",varnmz) #which are calculations
@@ -22,7 +23,8 @@ showParmz <- function(node,parmz=c('cost','p','qol')){
   ## print(varnmz)
   varnmz <- unique(varnmz)
   calcs <- unique(calcs)
-  list(vars=varnmz,calcs=calcs)
+  list(vars = varnmz,
+       calcs = calcs)
 }
 
 
@@ -44,7 +46,7 @@ showAllParmz <- function(TREE){
   cx <- cx[cx!=""]
   cx <- cx[cx!="1"]
   ## get non calcs
-  cx <- c(cx,B$vars)
+  cx <- c(cx, B$vars)
   unique(cx)
 }
 
@@ -64,7 +66,8 @@ makeTestData <- function(ncheck,vnames){
   idz <- rep(1:ncheck,length(vnames))
   A$id <- idz
   A$value <- runif(nrow(A))
-  data.table::dcast(A,id~vnames,value.var = 'value')
+  data.table::dcast(A,id~vnames,
+                    value.var = 'value')
 }
 ## TODO document risks etc - runifs
 ## ensure that data.table dependency supplied

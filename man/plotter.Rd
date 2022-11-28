@@ -9,9 +9,9 @@ plotter(node, varz = c("name", "cost", "qol"), edgelabel = TRUE)
 \arguments{
 \item{node}{a \code{data.tree} object that must contain a probability field \code{p}}
 
-\item{varz}{}
+\item{varz}{Variables}
 
-\item{edgelabel}{}
+\item{edgelabel}{Edge labels}
 }
 \value{
 \code{DiagrammeR} object
@@ -20,7 +20,7 @@ plotter(node, varz = c("name", "cost", "qol"), edgelabel = TRUE)
 This is a simplified plotting utility that allows visual checking of decision
 tree models. By default, the node names, costs, HRQoLs are displayed as well
 as the edge probabilities. The node attributes to display can be specified in
-`varz`. The boolean `edgelabel` variable allows turning the edge labels off.
+\code{varz}. The boolean \code{edgelabel} variable allows turning the edge labels off.
 }
 \author{
 Pete Dodd

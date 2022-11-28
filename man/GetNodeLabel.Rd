@@ -9,7 +9,7 @@ GetNodeLabel(node, varz = c("name", "cost", "qol"))
 \arguments{
 \item{node}{a \code{data.tree} object that must contain a probability field \code{p}}
 
-\item{varz}{}
+\item{varz}{Variables}
 }
 \value{
 \code{string} to be used as label

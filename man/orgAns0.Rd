@@ -7,11 +7,11 @@
 orgAns0(inp, lvl, LVLS)
 }
 \arguments{
-\item{inp}{}
+\item{inp}{Input}
 
-\item{lvl}{}
+\item{lvl}{Level}
 
-\item{LVLS}{}
+\item{LVLS}{Levels}
 }
 \value{
 A \code{list} of \code{list}s

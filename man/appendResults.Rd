@@ -11,9 +11,9 @@ appendResults(D, L, nmz = NULL, verbose = TRUE)
 
 \item{L}{a list of functions}
 
-\item{nmz}{an optional vector specifying a subset of the functions in \code{F} to run}
+\item{nmz}{Optional vector specifying a subset of the functions in \code{F} to run}
 
-\item{verbose}{print what's happening (default=\code{TRUE})}
+\item{verbose}{Print what's happening (default=\code{TRUE})}
 }
 \description{
 Append a number of results to data

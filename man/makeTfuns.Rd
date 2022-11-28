@@ -9,7 +9,7 @@ makeTfuns(node, qnt = c("cost", "qol"))
 \arguments{
 \item{node}{a \code{data.tree} object that must contain a probability field \code{p}}
 
-\item{qnt}{}
+\item{qnt}{Quantity}
 }
 \value{
 A \code{list} of functions

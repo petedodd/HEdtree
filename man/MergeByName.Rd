@@ -7,15 +7,15 @@
 MergeByName(rootnode, nodetoadd, nodename, usecase = TRUE, leavesonly = FALSE)
 }
 \arguments{
-\item{rootnode}{}
+\item{rootnode}{Root node}
 
-\item{nodetoadd}{}
+\item{nodetoadd}{Node to add}
 
-\item{nodename}{}
+\item{nodename}{Node name}
 
 \item{usecase}{Match case in nodename? (must be TRUE currently)}
 
-\item{leavesonly}{Merge only onto leaves?}
+\item{leavesonly}{Merge only onto leaves? Logical}
 }
 \description{
 Merge a tree onto another by node name
