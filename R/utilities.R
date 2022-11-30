@@ -117,16 +117,16 @@ MergeByName <- function (rootnode,
                          nodename,
                          usecase = TRUE,
                          leavesonly = FALSE) {
-    if(!leavesonly){
-        rootnode$Do(function(node)
-            for (K in nodetoadd$children) node$AddChildNode(Clone(K)),
-            filterFun = function(x) (x$name == nodename) )
-    } else {
-        rootnode$Do(function(node)
-            for (K in nodetoadd$children) node$AddChildNode(Clone(K)),
-            filterFun = function(x) (x$name == nodename) && x$isLeaf )
-    }
-    ## by side-effect
+  if(!leavesonly){
+    rootnode$Do(function(node)
+      for (K in nodetoadd$children) node$AddChildNode(data.tree::Clone(K)),
+      filterFun = function(x) (x$name == nodename) )
+  } else {
+    rootnode$Do(function(node)
+      for (K in nodetoadd$children) node$AddChildNode(data.tree::Clone(K)),
+      filterFun = function(x) (x$name == nodename) && x$isLeaf )
+  }
+  ## by side-effect
 }
 
 ##' Ditch the top of tree on reading
@@ -188,7 +188,7 @@ tree2file <- function(TREE, filename, ...){
 ##' @author Pete Dodd
 ##' @export
 LabelFromData <- function(tree, data){
-  do.call(Set,c(nodes=list(Traverse(tree)),data))
+  do.call(data.tree::Set,c(nodes=list(data.tree::Traverse(tree)),data))
 }
 
 

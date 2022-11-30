@@ -16,6 +16,12 @@ makeOdinModel <- function(tree,
                           times.array=FALSE,#are times arrays as well?
                           quants=c()        #rates to compute
                           ){
+
+  ## setup to avoid no visible bindings NOTES on R CMD check
+  bname <- from <- oname <- p <- op <- oT <- NULL
+  inrates <- inits <- onameto <- outrates <- NULL
+  dyx <- quantsL <- qn <- NULL
+  
   ## add aliased names: should work by side-effect on tree
   tree$Set(oname=rootname)
   tree$Do(function(node) if(!node$isLeaf){
@@ -57,29 +63,30 @@ makeOdinModel <- function(tree,
 
 
   ## extract relevant structure
-  DF <- as.data.table(ToDataFrameNetwork(tree$root,'p','T','oname'))
+  DF <- data.table::as.data.table(data.tree::ToDataFrameNetwork(tree$root,'p','T','oname'))
   if(length(quants)>0){
     for(qn in quants){
-      tmp <- as.data.table(ToDataFrameNetwork(tree$root,'oname',qn))
+      tmp <- data.table::as.data.table(data.tree::ToDataFrameNetwork(tree$root,'oname',qn))
       bname <- c('oname',qn)
-      tmp <- tmp[,..bname]
+      ## tmp <- tmp[,..bname]
+      tmp <- tmp[,bname,with=FALSE]
       DF <- merge(DF,tmp,by='oname')
     }
   }
   tnmz <- unique(DF$T)                  #time names
   tnmz <- tnmz[tnmz!='0']
   ntnmz <- setdiff(pmz,tnmz)            #not time names
-  hsh <- DF[,.(from,oname,op=p,oT=T)]
+  hsh <- DF[,list(from,oname,op=p,oT=T)]
   DF <- merge(DF,
-              hsh[,.(to=from,onameto=oname,op,oT)],
+              hsh[,list(to=from,onameto=oname,op,oT)],
               by='to',all.x=TRUE)
   ## in rate strings
   DF[,inrates:=paste0(oname,fbrkts,'*(',op,')/(',T,fbrktsT,')')]
 
   ## make in rates in right place and initial
-  DFU <- unique(DF[,.(oname)])
+  DFU <- unique(DF[,list(oname)])
   DFU[,inits:=paste0('initial(',oname,brkts,') <- 0')]
-  DFU <- merge(DFU,DF[T!=0,.(oname=onameto,inrates)],
+  DFU <- merge(DFU,DF[T!=0,list(oname=onameto,inrates)],
                by='oname',all.x = TRUE)
   DFU[is.na(inrates),inrates:='0']
   DFU[oname==rootname,inrates:=rootinflow]
@@ -95,7 +102,7 @@ makeOdinModel <- function(tree,
   
   ## make outrates
   DF[,outrates:=paste0(oname,fbrkts,'/(',T,fbrktsT,')')]
-  DFU <- merge(DFU,unique(DF[T!=0,.(oname,outrates)]),by='oname',all.x=TRUE)
+  DFU <- merge(DFU,unique(DF[T!=0,list(oname,outrates)]),by='oname',all.x=TRUE)
   DFU[is.na(outrates),outrates:='0']
 
 
@@ -103,7 +110,7 @@ makeOdinModel <- function(tree,
   DFU[,dyx:=paste0('deriv(',oname,brkts,') <- ',inrates,' - ',outrates)]
 
   ## keep the tree path/names
-  DFU <- merge(DFU,hsh[,.(oname,from)],by='oname',all.x=TRUE)
+  DFU <- merge(DFU,hsh[,list(oname,from)],by='oname',all.x=TRUE)
 
   ## dimz bit
   dmzbit <- NULL
@@ -140,15 +147,20 @@ makeOdinModel <- function(tree,
   qntz <- NULL
   if(length(quants)>0){
     quantsL <- c('oname',quants)
-    DFU <- merge(DFU,DF[,..quantsL],by='oname')
+    DFU <- merge(DFU,
+                 ## DF[,..quantsL],
+                 DF[,quantsL,with=FALSE],
+                 by='oname')
     for(qn in quants){
-      qnmz <- unlist(unique(DFU[,..qn]))
+      ## qnmz <- unlist(unique(DFU[,..qn]))
+      qnmz <- unlist(unique(DFU[,qn,with=FALSE]))
       ditch <- grepl("^[0-9]+$", qnmz, perl = TRUE)
       qnmz <- qnmz[!ditch]
       tmp1 <- NULL
       tmp2 <- paste0('initial(',qn,brkts,') <- 0' )
       tmp3a <- paste0('deriv(',qn,brkts,') <- ')
-      tmp3b <- unlist(DFU[,..qn])
+      tmp3b <- unlist(DFU[,qn,with=FALSE])
+      ## tmp3b <- unlist(DFU[,..qn])
       tmp3c <- paste0('* ',DFU[,inrates])
       tmp3 <- paste0(tmp3a,paste(tmp3b,tmp3c,collapse = '+'))
       if(L>0){
