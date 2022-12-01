@@ -7,3 +7,7 @@ tmp/*
 ^docs$
 ^README\.Rmd$
 ^LICENSE\.md$
+^CRAN-RELEASE$
+^cran-comments\.md$
+^codecov\.yml$
+man-roxygen
