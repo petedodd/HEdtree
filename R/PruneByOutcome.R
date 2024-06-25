@@ -8,6 +8,8 @@
 ##' @param negate whether the indicator should be negated
 ##' @return a pruned tree only containing routes to leaves with positive outcomes
 ##' @author Pete Dodd
+##' @import data.tree
+##' @export
 PruneByOutcome <- function(TREE, outcome, negate = FALSE) {
   newtree <- data.tree::Clone(TREE)
   newtree$Set(anyout = 0)
