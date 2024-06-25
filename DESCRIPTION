@@ -1,7 +1,11 @@
 Package: HEdtree
 Title: A Package For Decision Tree Modelling
-Version: 0.0.0.9000
-Authors@R: person("Pete", "Dodd", email="p.j.dodd@sheffield.ac.uk", role = c("aut", "cre"))
+Version: 0.0.0.999
+Authors@R: c(
+    person("Pete", "Dodd",
+      email="p.j.dodd@sheffield.ac.uk",
+      role = c("aut", "cre"),comment = c(ORCID = "0000-0001-5825-9347")),
+    person("Nathan", "Green", email="n.green@ucl.ac.uk", role = c("ctb")))
 Description: This package uses the `data.tree` package for simply specifying decision tree models
    in health economics, and includes utilities for visualisation and applying model to arbitrary PSA data.
 Depends: R (>= 3.0.1)
@@ -20,6 +24,6 @@ Suggests:
     rmarkdown,
     testthat (>= 3.0.0)
 VignetteBuilder: knitr
-RoxygenNote: 7.2.1
+RoxygenNote: 7.3.1
 Config/testthat/edition: 3
 Encoding: UTF-8
