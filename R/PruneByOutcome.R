@@ -8,13 +8,19 @@
 ##' @param negate whether the indicator should be negated
 ##' @return a pruned tree only containing routes to leaves with positive outcomes
 ##' @author Pete Dodd
+##' @import data.tree
+##' @export
 PruneByOutcome <- function(TREE, outcome, negate = FALSE) {
   newtree <- data.tree::Clone(TREE)
   newtree$Set(anyout = 0)
   if (negate) {
-    newtree$Set(anyout = 1, filterFun = function(x) !(as.numeric(x[[outcome]]) > 0))
+    newtree$Set(anyout = 1,
+                filterFun = function(x) !(as.numeric(x[[outcome]]) > 0) & (length(x$children)==0)
+                )
   } else {
-    newtree$Set(anyout = 1, filterFun = function(x) (as.numeric(x[[outcome]]) > 0))
+    newtree$Set(anyout = 1,
+                filterFun = function(x) (as.numeric(x[[outcome]]) > 0)  & (length(x$children)==0)
+                )
   }
   newtree$Do(function(x) x$anyout <- data.tree::Aggregate(x, "anyout", sum), traversal = "post-order")
   data.tree::Prune(newtree, function(x) x$anyout > 0) # removes all subtrees with anyout==0
