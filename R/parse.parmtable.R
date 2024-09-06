@@ -45,7 +45,9 @@ parse.parmtable <- function(data,       #in data, first col parm name, second de
   
   ## rest
   parz <- as.character(data[,1])
+  parz <- stringr::str_squish(parz) #strip whitespace
   ds <- as.character(data[,2])
+  ds <- stringr::str_squish(ds) # strip whitespace
   info <- matrix(nrow=nrow(data),ncol=2)
   ## if(ncol(data)>3)                    #any extra info stored in case useful
   ##   info <- apply(data[,3:ncol(data)],2,as.character)
