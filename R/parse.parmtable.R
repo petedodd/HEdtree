@@ -42,7 +42,7 @@ parse.parmtable <- function(data,       #in data, first col parm name, second de
                             ){
   ## seeking to avoid R CMD check visible bindings NOTES
   pz <- mn <- sg <- Uchol <- x <- NULL
-  
+
   ## rest
   parz <- as.character(data[,1])
   parz <- stringr::str_squish(parz) #strip whitespace
