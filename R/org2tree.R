@@ -63,7 +63,7 @@ org2LoL <- function(fn){
 ##' @author Pete Dodd
 ##' @export
 org2tree <- function(fn){
-  data.tree::as.Node(org2LoL(fn=fn))
+  top(data.tree::as.Node(org2LoL(fn=fn)))
 }
 
 ##' Text file to \code{data.tree} tree
